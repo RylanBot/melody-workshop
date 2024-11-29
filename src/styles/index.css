@@ -1,0 +1,5 @@
+body {
+  height: 100vh;
+  background-color: var(--td-bg-color-page);
+  overflow: hidden;
+}
