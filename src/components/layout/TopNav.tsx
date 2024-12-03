@@ -25,11 +25,11 @@ const TopNav: React.FC = () => {
           onClick={() => !isHome && navigate("/")}
           className={`flex-center mr-6 ${!isHome ? "cursor-pointer" : ""}`}
         >
-          <h1 className="text-2xl font-sans font-bold text-green-700 dark:text-green-500 mr-2">Melody Workshop</h1>
           <img
             src="favicon.png"
-            width={36}
+            width={25}
           />
+          <h1 className="text-2xl font-sans font-bold text-green-700 dark:text-green-500 ml-2">Melody Workshop</h1>
         </div>
         {!isHome && (
           <Tag
@@ -41,6 +41,7 @@ const TopNav: React.FC = () => {
         )}
       </div>
 
+      {/* 主题切换 */}
       <Tabs
         theme="card"
         className="rounded-sm h-8 w-16 flex-center border border-green-600"

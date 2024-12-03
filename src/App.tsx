@@ -1,15 +1,16 @@
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import merge from "lodash/merge";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "tdesign-react";
 import enConfig from "tdesign-react/es/locale/en_US";
-import merge from "lodash/merge";
+
+import useSettings from "@/hooks/useSettings";
+import { WaveSurferProvider } from "@/hooks/useWaveSurferContext";
 
 import Composition from "@/pages/Composition";
-import Conversion from "@/pages/Conversion";
 import Dashboard from "@/pages/Dashboard";
 import Processing from "@/pages/Processing";
 
-import TopNav from "@/components/TopNav";
-import useSettings from "@/hooks/useSettings";
+import TopNav from "@/components/layout/TopNav";
 
 function Layout() {
   return (
@@ -35,12 +36,12 @@ function App() {
           element: <Dashboard />
         },
         {
-          path: "/conversion",
-          element: <Conversion />
-        },
-        {
           path: "/processing",
-          element: <Processing />
+          element: (
+            <WaveSurferProvider>
+              <Processing />
+            </WaveSurferProvider>
+          )
         },
         {
           path: "/composition",
@@ -53,7 +54,7 @@ function App() {
   return (
     <>
       <ConfigProvider globalConfig={globalConfig}>
-        <RouterProvider router={router} />;
+        <RouterProvider router={router} />
       </ConfigProvider>
     </>
   );

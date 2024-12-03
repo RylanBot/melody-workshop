@@ -1,4 +1,4 @@
-import IntroCard from "@/components/IntroCard";
+import IntroCard from "@/components/layout/IntroCard";
 
 function Dashboard() {
   const intros = [
