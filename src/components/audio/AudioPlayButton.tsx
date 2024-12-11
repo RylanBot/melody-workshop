@@ -5,11 +5,7 @@ const AudioPlayButton: React.FC = () => {
   const { isPlaying, togglePlay } = useWaveSurferContext();
 
   return (
-    <Button
-      size="large"
-      shape="circle"
-      onClick={togglePlay}
-    >
+    <Button onClick={togglePlay}>
       <div className={`${isPlaying ? "i-solar:pause-bold" : "i-solar:play-bold"}`}></div>
     </Button>
   );

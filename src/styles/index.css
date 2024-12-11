@@ -34,7 +34,20 @@ input[inputmode="numeric"] {
   border-color: transparent !important;
 }
 .t-fake-arrow.t-select__right-icon {
-  color: #0d2f14 !important;
+  color: var(--td-brand-color) !important;
+}
+
+/* Slider */
+.t-slider__mark-text {
+  font-family: var(--font-mono) !important;
+}
+
+/* Radio */
+.t-radio-group.t-radio-group--filled {
+  border: 2px solid !important;
+  border-color: #16a34a !important;
+  border-bottom: 0px !important;
+  border-radius: 0 !important;
 }
 
 /* WaveSurfer */

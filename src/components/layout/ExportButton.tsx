@@ -1,7 +1,9 @@
 import { Button, Dropdown } from "tdesign-react";
 
 const ExportButton: React.FC = () => {
-  const FORMAT_OPTIONS = ["mp3", "m4a", "wav"];
+  const FORMAT_OPTIONS = ["wav", "mp3"];
+
+  const handleAudioExport = async () => {};
 
   return (
     <>
@@ -15,7 +17,10 @@ const ExportButton: React.FC = () => {
           }))}
           style={{ width: 113 }}
         >
-          <Button theme="primary">
+          <Button
+            theme="success"
+            onClick={handleAudioExport}
+          >
             <div className="flex-center font-bold">
               <div className="i-ri:folder-music-line mr-4 text-lg"></div>
               <span>Export</span>

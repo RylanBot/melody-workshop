@@ -1,4 +1,3 @@
-export { default as AudioEffect } from "./AudioEffect";
-export { default as AudioModifier } from "./AudioModifier";
-export { default as AudioTimeInputSet } from "./AudioTimeInputSet";
+export { default as AudioEqualizer } from "./AudioEqualizer";
+export { default as AudioCutter } from "./AudioCutter";
 export { default as AudioPlayButton } from "./AudioPlayButton";
