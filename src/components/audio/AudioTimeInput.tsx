@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { PatternFormat } from "react-number-format";
 
 import { formatTime, isTimeSmallerThan } from "@/libs/time";
@@ -10,21 +10,21 @@ interface AudioTimeInputProps {
 }
 
 const AudioTimeInput: React.FC<AudioTimeInputProps> = ({ max, time, onChange }) => {
-  const [currentTime, setCurrentTime] = useState("00:00:00"); // 分:秒:毫秒
+  const currentTimeRef = useRef<string>("00:00:00");
 
   useEffect(() => {
-    setCurrentTime(time);
+    currentTimeRef.current = time;
   }, [time]);
 
   const onTimeChange = (newTime: string) => {
     if (isTimeSmallerThan(newTime, max)) {
-      setCurrentTime(newTime);
+      currentTimeRef.current = newTime;
       onChange(newTime);
     }
   };
 
   const handleIncrease = () => {
-    let [minutes, seconds, milliseconds] = currentTime.split(":").map(Number);
+    let [minutes, seconds, milliseconds] = currentTimeRef.current.split(":").map(Number);
 
     milliseconds += 1;
     if (milliseconds >= 100) {
@@ -41,7 +41,7 @@ const AudioTimeInput: React.FC<AudioTimeInputProps> = ({ max, time, onChange }) 
   };
 
   const handleDecrease = () => {
-    let [minutes, seconds, milliseconds] = currentTime.split(":").map(Number);
+    let [minutes, seconds, milliseconds] = currentTimeRef.current.split(":").map(Number);
 
     if (milliseconds > 0) {
       milliseconds -= 1;
@@ -62,7 +62,7 @@ const AudioTimeInput: React.FC<AudioTimeInputProps> = ({ max, time, onChange }) 
     <>
       <div className="flex">
         <PatternFormat
-          value={currentTime}
+          value={currentTimeRef.current}
           format="##:##:##"
           mask="_"
           onChange={(e) => onTimeChange(e.target.value)}
