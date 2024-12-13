@@ -13,9 +13,8 @@ export const secondsToTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = Math.floor(seconds % 60); // 剩余的秒数
   const milliseconds = Math.floor((seconds % 1) * 100);
-
   return formatTime(minutes, remainingSeconds, milliseconds);
-}
+};
 
 /**
  * 将时间字符串，转为总秒数
@@ -25,8 +24,8 @@ export const timeToSeconds = (time: string) => {
   const minutes = parseInt(minutesStr, 10);
   const seconds = parseInt(secondsStr, 10);
   const milliseconds = parseInt(millisecondsStr, 10);
-  return minutes * 60 + seconds + milliseconds / 1000;
-}
+  return minutes * 60 + seconds + milliseconds / 100;
+};
 
 /**
  * 比较两个输入的时间字符串
