@@ -2,19 +2,27 @@ import { ReactNode, createContext, useContext, useEffect, useRef, useState } fro
 import WaveSurfer from "wavesurfer.js";
 import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.esm.js";
 
+import { EQ_BANDS } from "@/libs/audio";
+
 interface WaveSurferContextType {
   waveSurferRef: React.RefObject<WaveSurfer | null>;
   waveformRef: React.RefObject<HTMLDivElement>;
   audioContextRef: React.RefObject<AudioContext | null>;
   audioSourceRef: React.RefObject<MediaElementAudioSourceNode | null>;
   isPlaying: boolean;
+  /**
+   * 以下三个时间变量
+   * 单位 - 秒（s），保留两位小数
+   */
   duration: number;
   startTime: number;
   endTime: number;
+  filterGains: number[];
   loadAudioWave: (audioElement: HTMLAudioElement) => void;
   togglePlay: () => void;
   setStartTime: (time: number) => void;
   setEndTime: (time: number) => void;
+  setFilterGains: (gains: number[]) => void;
 }
 
 const WaveSurferContext = createContext<WaveSurferContextType | null>(null);
@@ -37,8 +45,11 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
+
+  // 加工数据
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
+  const [filterGains, setFilterGains] = useState<number[]>(Array(EQ_BANDS.length).fill(0));
 
   const syncRegionTime = (region: Region) => {
     setStartTime(Number(region.start.toFixed(2)));
@@ -86,10 +97,11 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
 
     waveSurferRef.current.on("play", () => setIsPlaying(true));
     waveSurferRef.current.on("pause", () => setIsPlaying(false));
-
+    waveSurferRef.current.on("click", () => waveSurferRef.current!.pause());
+    
     waveSurferRef.current.on("timeupdate", () => {
       // 只播放选中部分
-      const currentTime = waveSurferRef!.current!.getCurrentTime();
+      const currentTime = waveSurferRef.current!.getCurrentTime();
       const region = regionsRef.current?.getRegions()[0];
       // note: 不能直接和 endTime 比较，监听器引用的可能不是实时值
       if (region && currentTime >= region.end) {
@@ -149,10 +161,12 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
         duration,
         startTime,
         endTime,
+        filterGains,
         loadAudioWave,
         togglePlay,
         setStartTime,
-        setEndTime
+        setEndTime,
+        setFilterGains
       }}
     >
       {children}

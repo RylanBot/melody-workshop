@@ -2,36 +2,30 @@ import { useState } from "react";
 import { Select, Slider } from "tdesign-react";
 
 import useWaveSurferContext from "@/hooks/useWaveSurferContext";
-
-const EQ_BANDS = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
-const EQ_PRESETS = ["Default", "Dance", "Live"];
+import { EQ_BANDS, EQ_PRESETS, createFilters } from "@/libs/audio";
 
 const AudioEqualizer: React.FC = () => {
-  const { audioContextRef, audioSourceRef } = useWaveSurferContext();
+  const { audioContextRef, audioSourceRef, filterGains, setFilterGains } = useWaveSurferContext();
   const [activePreset, setActivePreset] = useState<string>(EQ_PRESETS[0]);
-  const [filterGains, setFilterGains] = useState<number[]>(Array(EQ_BANDS.length).fill(0));
 
   const handleFilterGainChange = (index: number, value: number) => {
+    if (!audioContextRef) return;
+
+    // note: 避免滤波器不断叠加
+    if (audioSourceRef.current) {
+      audioSourceRef.current.disconnect();
+    }
+
     const newFilterGains = [...filterGains];
     newFilterGains[index] = value;
     setFilterGains(newFilterGains);
 
-    if (!audioContextRef || !audioSourceRef) return;
-
-    const filters = EQ_BANDS.map((band) => {
-      const filter = audioContextRef.current!.createBiquadFilter();
-      filter.type = band <= 32 ? "lowshelf" : band >= 16000 ? "highshelf" : "peaking";
-      filter.gain.value = filterGains[EQ_BANDS.indexOf(band)];
-      filter.Q.value = 1;
-      filter.frequency.value = band;
-      return filter;
-    });
-
+    const filters = createFilters(audioContextRef.current!, newFilterGains);
     for (let i = 0; i < filters.length - 1; i++) {
       filters[i].connect(filters[i + 1]);
     }
-
     filters[filters.length - 1].connect(audioContextRef.current!.destination);
+
     audioSourceRef.current!.connect(filters[0]);
   };
 
@@ -59,6 +53,7 @@ const AudioEqualizer: React.FC = () => {
               value={gain}
               min={-40}
               max={40}
+              disabled={!audioContextRef.current}
               onChange={(value) => handleFilterGainChange(index, value as number)}
             />
             <div className="mt-1.5 text-xs italic">{EQ_BANDS[index]} Hz</div>
