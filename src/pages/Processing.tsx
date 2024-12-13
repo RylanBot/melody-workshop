@@ -19,7 +19,8 @@ function Processing() {
 
   const handleWaveInit = async (file: File) => {
     setAudioFile(file);
-    loadAudioWave(file);
+    const audio = new Audio(URL.createObjectURL(file));
+    loadAudioWave(audio);
   };
 
   const handleAudioUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

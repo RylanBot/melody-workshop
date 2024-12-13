@@ -5,11 +5,13 @@ import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.esm.js
 interface WaveSurferContextType {
   waveSurferRef: React.RefObject<WaveSurfer | null>;
   waveformRef: React.RefObject<HTMLDivElement>;
+  audioContextRef: React.RefObject<AudioContext | null>;
+  audioSourceRef: React.RefObject<MediaElementAudioSourceNode | null>;
   isPlaying: boolean;
   duration: number;
   startTime: number;
   endTime: number;
-  loadAudioWave: (file: File) => void;
+  loadAudioWave: (audioElement: HTMLAudioElement) => void;
   togglePlay: () => void;
   setStartTime: (time: number) => void;
   setEndTime: (time: number) => void;
@@ -30,6 +32,9 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
   const waveformRef = useRef<HTMLDivElement>(null);
   const regionsRef = useRef<RegionsPlugin | null>(null);
 
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const audioSourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [startTime, setStartTime] = useState(0);
@@ -40,7 +45,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     setEndTime(Number(region.end.toFixed(2)));
   };
 
-  const loadAudioWave = (file: File) => {
+  const loadAudioWave = (audioElement: HTMLAudioElement) => {
     if (!waveformRef.current) return;
 
     if (waveSurferRef.current) {
@@ -50,8 +55,10 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     }
 
     regionsRef.current = RegionsPlugin.create();
+
     waveSurferRef.current = WaveSurfer.create({
       container: waveformRef.current,
+      media: audioElement,
       waveColor: "#90e092",
       progressColor: "#0a9528",
       barWidth: 2,
@@ -59,7 +66,13 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     });
 
     /* 波谱相关事件 */
-    waveSurferRef.current.load(URL.createObjectURL(file));
+    waveSurferRef.current.on("ready", () => {
+      const audioContext = new AudioContext();
+      const source = audioContext.createMediaElementSource(waveSurferRef!.current!.getMediaElement());
+      source.connect(audioContext.destination);
+      audioContextRef.current = audioContext;
+      audioSourceRef.current = source;
+    });
 
     waveSurferRef.current.on("decode", () => {
       const audioDuration = waveSurferRef.current!.getDuration();
@@ -78,7 +91,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
       // 只播放选中部分
       const currentTime = waveSurferRef!.current!.getCurrentTime();
       const region = regionsRef.current?.getRegions()[0];
-      // 不能直接和 endTime 比较，监听器引用的可能不是实时值
+      // note: 不能直接和 endTime 比较，监听器引用的可能不是实时值
       if (region && currentTime >= region.end) {
         waveSurferRef!.current!.pause();
       }
@@ -130,6 +143,8 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
       value={{
         waveSurferRef,
         waveformRef,
+        audioContextRef,
+        audioSourceRef,
         isPlaying,
         duration,
         startTime,
