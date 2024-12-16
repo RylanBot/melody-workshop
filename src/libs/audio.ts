@@ -14,6 +14,33 @@ export const createFilters = (audioContext: AudioContext | OfflineAudioContext, 
   return filters;
 };
 
+export const createFilterBuffer = async (file: File, filterGains: number[]) => {
+  const response = await fetch(URL.createObjectURL(file));
+  const arrayBuffer = await response.arrayBuffer();
+  const sourceBuffer = await new AudioContext().decodeAudioData(arrayBuffer);
+
+  const offlineContext = new OfflineAudioContext(
+    sourceBuffer.numberOfChannels,
+    sourceBuffer.length,
+    sourceBuffer.sampleRate
+  );
+
+  const offlineSource = offlineContext.createBufferSource();
+  offlineSource.buffer = sourceBuffer;
+
+  const filters = createFilters(offlineContext, filterGains);
+
+  for (let i = 0; i < filters.length - 1; i++) {
+    filters[i].connect(filters[i + 1]);
+  }
+  filters[filters.length - 1].connect(offlineContext.destination);
+  offlineSource.connect(filters[0]);
+
+  offlineSource.start();
+  const renderedBuffer = await offlineContext.startRendering();
+  return renderedBuffer;
+};
+
 export const sliceBufferByTime = (audioBuffer: AudioBuffer, startTime: number, endTime: number): AudioBuffer => {
   const sampleRate = audioBuffer.sampleRate;
   const startSample = Math.max(0, Math.floor(startTime * sampleRate));

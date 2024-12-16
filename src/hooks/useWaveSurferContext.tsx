@@ -3,10 +3,11 @@ import WaveSurfer from "wavesurfer.js";
 import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.esm.js";
 
 import { EQ_BANDS } from "@/libs/audio";
+import { WAVE_OPTIONS } from "@/libs/config";
 
 interface WaveSurferContextType {
   waveSurferRef: React.RefObject<WaveSurfer | null>;
-  waveformRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement>;
   audioContextRef: React.RefObject<AudioContext | null>;
   audioSourceRef: React.RefObject<MediaElementAudioSourceNode | null>;
   isPlaying: boolean;
@@ -18,7 +19,7 @@ interface WaveSurferContextType {
   startTime: number;
   endTime: number;
   filterGains: number[];
-  loadAudioWave: (audioElement: HTMLAudioElement) => void;
+  initWaveform: (audioElement: HTMLAudioElement) => void;
   togglePlay: () => void;
   setStartTime: (time: number) => void;
   setEndTime: (time: number) => void;
@@ -37,7 +38,7 @@ const useWaveSurferContext = () => {
 
 export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const waveSurferRef = useRef<WaveSurfer | null>(null);
-  const waveformRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const regionsRef = useRef<RegionsPlugin | null>(null);
 
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -56,8 +57,8 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     setEndTime(Number(region.end.toFixed(2)));
   };
 
-  const loadAudioWave = (audioElement: HTMLAudioElement) => {
-    if (!waveformRef.current) return;
+  const initWaveform = (audioElement: HTMLAudioElement) => {
+    if (!containerRef.current) return;
 
     if (waveSurferRef.current) {
       // 避免创建多个轨道
@@ -68,12 +69,10 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     regionsRef.current = RegionsPlugin.create();
 
     waveSurferRef.current = WaveSurfer.create({
-      container: waveformRef.current,
+      container: containerRef.current,
       media: audioElement,
-      waveColor: "#90e092",
-      progressColor: "#0a9528",
-      barWidth: 2,
-      plugins: [regionsRef.current]
+      plugins: [regionsRef.current],
+      ...WAVE_OPTIONS
     });
 
     /* 波谱相关事件 */
@@ -154,7 +153,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     <WaveSurferContext.Provider
       value={{
         waveSurferRef,
-        waveformRef,
+        containerRef,
         audioContextRef,
         audioSourceRef,
         isPlaying,
@@ -162,7 +161,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
         startTime,
         endTime,
         filterGains,
-        loadAudioWave,
+        initWaveform,
         togglePlay,
         setStartTime,
         setEndTime,
