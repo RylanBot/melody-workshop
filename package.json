@@ -9,12 +9,12 @@
     "lint": "npx prettier . --write"
   },
   "dependencies": {
-    "@webav/av-cliper": "^1.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-number-format": "^5.4.2",
     "react-router-dom": "^7.0.1",
     "tdesign-react": "^1.10.1",
+    "wavesurfer-multitrack": "^0.4.12",
     "wavesurfer.js": "^7.8.9",
     "zustand": "^5.0.1"
   },

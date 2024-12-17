@@ -96,3 +96,17 @@ input[inputmode="numeric"] {
   font-size: 0.75rem;
   line-height: 0.75em;
 }
+
+#multitrack > div {
+  overflow: hidden !important;
+}
+
+#multitrack > div > div > div:nth-child(n + 2):nth-last-child(n + 3) {
+  margin: 5px !important;
+  margin-bottom: 40px !important;
+}
+
+#multitrack > div > div > div.active {
+  outline: 2px dotted var(--theme-color);
+  padding: 12px !important;
+}

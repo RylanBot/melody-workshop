@@ -2,8 +2,15 @@ interface AudioUploaderProps {
   multiple?: boolean;
   defaultAudio: string | string[];
   onUpload: (audio: File | File[]) => void;
+  labelHeight?: string; // 对应 UnoCSS 的 h-xx 写法
 }
-const AudioUploader: React.FC<AudioUploaderProps> = ({ multiple = false, defaultAudio, onUpload }) => {
+
+const AudioUploader: React.FC<AudioUploaderProps> = ({
+  multiple = false,
+  defaultAudio,
+  onUpload,
+  labelHeight = "h-32"
+}) => {
   const handleAudioUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
@@ -35,7 +42,7 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({ multiple = false, default
           <div className="i-tdesign:attach text-lg"></div>
         </button>
       </div>
-      <label className="flex-center flex-col h-32 p-5 border-2 border-dashed border-green-500">
+      <label className={`${labelHeight} flex-center flex-col p-5 border-2 border-dashed border-green-500`}>
         <input
           type="file"
           accept="audio/*"
@@ -44,7 +51,7 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({ multiple = false, default
           onChange={handleAudioUpload}
         />
         <div className="i-line-md:uploading-loop text-3xl mb-2"></div>
-        <div className="font-bold ">Upload your audio file${multiple && "s"}</div>
+        <div className="font-bold ">Upload your audio file{multiple && "s"}</div>
       </label>
     </>
   );

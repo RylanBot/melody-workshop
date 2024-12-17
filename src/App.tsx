@@ -3,6 +3,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "tdesign-react";
 import enConfig from "tdesign-react/es/locale/en_US";
 
+import { MultiTrackProvider } from "@/hooks/useMultiTrackContext";
 import useSettings from "@/hooks/useSettings";
 import { WaveSurferProvider } from "@/hooks/useWaveSurferContext";
 
@@ -45,7 +46,11 @@ function App() {
         },
         {
           path: "/composition",
-          element: <Composition />
+          element: (
+            <MultiTrackProvider>
+              <Composition />
+            </MultiTrackProvider>
+          )
         }
       ]
     }
