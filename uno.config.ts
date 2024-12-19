@@ -26,6 +26,13 @@ export default defineConfig({
   },
   shortcuts: [
     ["flex-center", "flex justify-center items-center"],
-    ["flex-between", "flex justify-between items-center"]
-  ]
+    ["flex-between", "flex justify-between items-center"],
+    ["flex-end", "flex justify-end items-center"]
+  ],
+  theme: {
+    colors: {
+      'td-brand': '#5BC25E',
+      'td-brand-dark': '#36a541'
+    },
+  },
 });
