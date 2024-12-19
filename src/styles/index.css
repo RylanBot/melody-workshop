@@ -1,10 +1,20 @@
 :root {
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --theme-color: #2eba53;
+  --theme-color: #5ab071;
+}
+
+:root[theme-mode="light"] {
+  --scrollbar-color: #79b98b #ffffff;
+}
+
+:root[theme-mode="dark"] {
+  --scrollbar-color: #317243 #cccccc;
 }
 
 * {
   @apply font-mono;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color);
 }
 
 body {
@@ -98,15 +108,25 @@ input[inputmode="numeric"] {
 }
 
 #multitrack > div {
-  overflow: hidden !important;
+  height: 100% !important;
+  overflow: auto !important;
 }
 
-#multitrack > div > div > div:nth-child(n + 2):nth-last-child(n + 3) {
-  margin: 5px !important;
+/* timeline */
+#multitrack > div > div > div:nth-child(1) {
+  height: 30px !important;
+}
+
+/* track */
+#multitrack > div > div > div:nth-child(n + 3):nth-last-child(n + 2) {
   margin-bottom: 40px !important;
 }
 
 #multitrack > div > div > div.active {
-  outline: 2px dotted var(--theme-color);
+  border: 2px dotted;
+  border-color: var(--theme-color) !important;
+  border-left: 6px solid;
+  border-right: 6px solid;
+  border-radius: 2px;
   padding: 12px !important;
 }
