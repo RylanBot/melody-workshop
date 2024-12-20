@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { PatternFormat } from "react-number-format";
 
-import { formatTime, isTimeSmallerThan } from "@/libs/time";
+import { formatTime, isTimeSmallerThan } from "@/libs/common/time";
 
 interface AudioTimeInputProps {
   max: string; // 音频本身长度

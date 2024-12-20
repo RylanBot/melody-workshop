@@ -2,31 +2,20 @@ import { useState } from "react";
 import { Select, Slider } from "tdesign-react";
 
 import useWaveSurferContext from "@/hooks/useWaveSurferContext";
-import { EQ_BANDS, EQ_PRESETS, createFilters } from "@/libs/audio";
+import { EQ_BANDS, EQ_PRESETS } from "@/libs/audio/effects";
 
 const AudioEqualizer: React.FC = () => {
-  const { audioContextRef, audioSourceRef, filterGains, setFilterGains } = useWaveSurferContext();
+  const { processorRef } = useWaveSurferContext();
+
+  const [filterGains, setFilterGains] = useState<number[]>(Array(EQ_BANDS.length).fill(0));
   const [activePreset, setActivePreset] = useState<string>(EQ_PRESETS[0]);
 
   const handleFilterGainChange = (index: number, value: number) => {
-    if (!audioContextRef) return;
-
-    // note: 避免滤波器不断叠加
-    if (audioSourceRef.current) {
-      audioSourceRef.current.disconnect();
-    }
-
+    if (!processorRef.current) return;
     const newFilterGains = [...filterGains];
     newFilterGains[index] = value;
     setFilterGains(newFilterGains);
-
-    const filters = createFilters(audioContextRef.current!, newFilterGains);
-    for (let i = 0; i < filters.length - 1; i++) {
-      filters[i].connect(filters[i + 1]);
-    }
-    filters[filters.length - 1].connect(audioContextRef.current!.destination);
-
-    audioSourceRef.current!.connect(filters[0]);
+    processorRef.current.applyFilter(newFilterGains);
   };
 
   return (
@@ -53,7 +42,7 @@ const AudioEqualizer: React.FC = () => {
               value={gain}
               min={-40}
               max={40}
-              disabled={!audioContextRef.current}
+              disabled={!processorRef.current}
               onChange={(value) => handleFilterGainChange(index, value as number)}
             />
             <div className="mt-1.5 text-xs italic">{EQ_BANDS[index]} Hz</div>

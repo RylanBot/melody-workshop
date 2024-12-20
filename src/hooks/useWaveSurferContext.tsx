@@ -2,28 +2,20 @@ import { ReactNode, createContext, useContext, useEffect, useRef, useState } fro
 import WaveSurfer from "wavesurfer.js";
 import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.esm.js";
 
-import { EQ_BANDS } from "@/libs/audio";
-import { WAVE_OPTIONS } from "@/libs/config";
+import AudioProcessor from "@/libs/audio/processor";
+import { WAVE_OPTIONS } from "@/libs/common/config";
 
 interface WaveSurferContextType {
-  waveSurferRef: React.RefObject<WaveSurfer | null>;
   containerRef: React.RefObject<HTMLDivElement>;
-  audioContextRef: React.RefObject<AudioContext | null>;
-  audioSourceRef: React.RefObject<MediaElementAudioSourceNode | null>;
+  processorRef: React.RefObject<AudioProcessor | null>;
   isPlaying: boolean;
-  /**
-   * 以下三个时间变量
-   * 单位 - 秒（s），保留两位小数
-   */
   duration: number;
   startTime: number;
   endTime: number;
-  filterGains: number[];
-  initWaveform: (audioElement: HTMLAudioElement) => void;
+  initTrack: (audio: HTMLAudioElement) => void;
   togglePlay: () => void;
   setStartTime: (time: number) => void;
   setEndTime: (time: number) => void;
-  setFilterGains: (gains: number[]) => void;
 }
 
 const WaveSurferContext = createContext<WaveSurferContextType | null>(null);
@@ -41,16 +33,14 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
   const containerRef = useRef<HTMLDivElement>(null);
   const regionsRef = useRef<RegionsPlugin | null>(null);
 
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const audioSourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+  const processorRef = useRef<AudioProcessor | null>(null);
 
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-  // 加工数据
-  const [startTime, setStartTime] = useState(0);
-  const [endTime, setEndTime] = useState(0);
-  const [filterGains, setFilterGains] = useState<number[]>(Array(EQ_BANDS.length).fill(0));
+  /* 时间单位 - 秒（s），保留两位小数 */
+  const [duration, setDuration] = useState<number>(0);
+  const [startTime, setStartTime] = useState<number>(0);
+  const [endTime, setEndTime] = useState<number>(0);
 
   const syncRegionTime = (region: Region) => {
     setStartTime(Number(region.start.toFixed(2)));
@@ -59,12 +49,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
 
   const initWaveform = (audioElement: HTMLAudioElement) => {
     if (!containerRef.current) return;
-
-    if (waveSurferRef.current) {
-      // 避免创建多个轨道
-      waveSurferRef.current.destroy();
-      regionsRef.current?.destroy();
-    }
+    cleanUpResource();
 
     regionsRef.current = RegionsPlugin.create();
 
@@ -77,11 +62,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
 
     /* 波谱相关事件 */
     waveSurferRef.current.on("ready", () => {
-      const audioContext = new AudioContext();
-      const source = audioContext.createMediaElementSource(waveSurferRef!.current!.getMediaElement());
-      source.connect(audioContext.destination);
-      audioContextRef.current = audioContext;
-      audioSourceRef.current = source;
+      processorRef.current = new AudioProcessor(waveSurferRef!.current!.getMediaElement());
     });
 
     waveSurferRef.current.on("decode", () => {
@@ -97,7 +78,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     waveSurferRef.current.on("play", () => setIsPlaying(true));
     waveSurferRef.current.on("pause", () => setIsPlaying(false));
     waveSurferRef.current.on("click", () => waveSurferRef.current!.pause());
-    
+
     waveSurferRef.current.on("timeupdate", () => {
       // 只播放选中部分
       const currentTime = waveSurferRef.current!.getCurrentTime();
@@ -110,7 +91,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
 
     /* 选区相关事件 */
     regionsRef.current.on("region-created", (region) => syncRegionTime(region));
-    regionsRef.current.on("region-update", (region) => syncRegionTime(region));
+    regionsRef.current.on("region-updated", (region) => syncRegionTime(region));
   };
 
   const togglePlay = () => {
@@ -119,22 +100,26 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     }
   };
 
-  const resetOptions = () => {
+  const cleanUpResource = () => {
     setStartTime(0);
     setEndTime(0);
+    if (waveSurferRef.current) {
+      waveSurferRef.current.destroy();
+      waveSurferRef.current = null;
+    }
+    if (regionsRef.current) {
+      regionsRef.current.destroy();
+      regionsRef.current = null;
+}
+    if (processorRef.current) {
+      processorRef.current.destroy();
+      processorRef.current = null;
+    }
   };
 
   useEffect(() => {
     return () => {
-      resetOptions();
-      if (waveSurferRef.current) {
-        waveSurferRef.current.destroy();
-        waveSurferRef.current = null;
-      }
-      if (regionsRef.current) {
-        regionsRef.current.destroy();
-        regionsRef.current = null;
-      }
+      cleanUpResource();
     };
   }, []);
 
@@ -152,20 +137,16 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
   return (
     <WaveSurferContext.Provider
       value={{
-        waveSurferRef,
         containerRef,
-        audioContextRef,
-        audioSourceRef,
+        processorRef,
         isPlaying,
         duration,
         startTime,
         endTime,
-        filterGains,
-        initWaveform,
+        initTrack: initWaveform,
         togglePlay,
         setStartTime,
-        setEndTime,
-        setFilterGains
+        setEndTime
       }}
     >
       {children}

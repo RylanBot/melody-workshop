@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 import MultiTrack from "wavesurfer-multitrack";
 
-import { TRACK_OPTIONS } from "@/libs/config";
+import { TRACK_OPTIONS } from "@/libs/common/config";
 
 type Track = {
   id: number;
