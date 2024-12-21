@@ -2,22 +2,20 @@ import { ReactNode, createContext, useContext, useEffect, useRef, useState } fro
 import MultiTrack from "wavesurfer-multitrack";
 
 import { TRACK_OPTIONS } from "@/libs/common/config";
+import { Track } from "@/libs/audio/mixer";
 
-type Track = {
+interface TrackMeta extends Track {
   id: number;
-  url: string;
   name: string;
-  position: number;
-  volume: number;
-};
+}
 
 interface MultiTrackContextType {
   containerRef: React.RefObject<HTMLDivElement>;
-  tracks: Track[];
+  tracks: TrackMeta[];
   isPlaying: boolean;
   activeId: number;
   togglePlay: () => void;
-  addTracks: (file: { url: string; name: string }[]) => void;
+  addTracks: (audio: { url: string; name: string }[]) => void;
   deleteTrack: () => void;
   setTrackVolume: (volume: number) => void;
 }
@@ -36,22 +34,22 @@ export const MultiTrackProvider: React.FC<{ children: ReactNode }> = ({ children
   const multiTrackRef = useRef<MultiTrack | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [tracks, setTracks] = useState<Track[]>([]);
+  const [tracks, setTracks] = useState<TrackMeta[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeId, setActiveId] = useState<number>(0);
 
-  const createMultiTrack = (newTracks: Track[]) => {
+  const createMultiTrack = (audio: TrackMeta[]) => {
     if (!containerRef.current) return;
     cleanUpResource();
 
-    const tracksConfig = newTracks.map((track) => ({
+    const newTracks = audio.map((track) => ({
       id: track.id,
       url: track.url,
       startPosition: track.position,
       ...TRACK_OPTIONS
     }));
 
-    multiTrackRef.current = MultiTrack.create(tracksConfig, {
+    multiTrackRef.current = MultiTrack.create(newTracks, {
       container: containerRef.current,
       cursorColor: "#0a9528",
       cursorWidth: 1.5,
@@ -76,13 +74,13 @@ export const MultiTrackProvider: React.FC<{ children: ReactNode }> = ({ children
     }
   };
 
-  const addTracks = (files: { url: string; name: string }[]) => {
+  const addTracks = (audio: { url: string; name: string }[]) => {
     const newTracks = [
       ...tracks,
-      ...files.map((file, index) => ({
+      ...audio.map((item, index) => ({
         id: tracks.length + index,
-        url: file.url,
-        name: file.name,
+        url: item.url,
+        name: item.name,
         position: 0,
         volume: 1
       }))
@@ -137,9 +135,6 @@ export const MultiTrackProvider: React.FC<{ children: ReactNode }> = ({ children
 
         const index = children.indexOf(clickedDiv) - 2;
         setActiveId(index);
-
-        multiTrackRef.current?.pause();
-        setIsPlaying(false);
       }
     };
 

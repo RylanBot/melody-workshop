@@ -2,6 +2,11 @@ import { Button, Slider } from "tdesign-react";
 
 import { AudioPlayButton, AudioUploader } from "@/components/audio";
 import MainContainer from "@/components/layout/MainContainer";
+
+import AudioMixer from "@/libs/audio/mixer";
+import { audioBufferToWav } from "@/libs/audio/wav";
+import { downloadFile } from "@/libs/common/toolkit";
+
 import useMultiTrackContext from "@/hooks/useMultiTrackContext";
 
 const Composition = () => {
@@ -18,7 +23,15 @@ const Composition = () => {
     addTracks(newTracks);
   };
 
-  const handleAudioExport = (format: string) => {};
+  const handleAudioExport = async (format: string) => {
+    const mixer = new AudioMixer(tracks);
+    const buffer = await mixer.getAudioBuffer();
+    const wav = audioBufferToWav(buffer);
+    const blob = new Blob([new DataView(wav)], {
+      type: "audio/wav"
+    });
+    downloadFile(blob, "output.wav");
+  };
 
   return (
     <MainContainer onExport={(format) => handleAudioExport(format)}>
@@ -80,7 +93,7 @@ const Composition = () => {
               <div className="w-46 flex-center bg-white dark:bg-dark-500 border-1 border-green-500 rounded-sm py-1 pl-4 pr-6">
                 <div className="i-tdesign:sound mr-4 text-xl text-green-500"></div>
                 <Slider
-                  min={0.1}
+                  min={0}
                   max={1}
                   step={0.1}
                   value={tracks[activeId].volume}
