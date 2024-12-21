@@ -11,5 +11,6 @@ export default defineConfig({
     alias: {
       "@": path.join(__dirname, "./src")
     }
-  }
+  },
+  optimizeDeps: { exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"] }
 });
