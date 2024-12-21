@@ -1,11 +1,11 @@
 import { Button, Slider } from "tdesign-react";
 
-import { AudioPlayButton, AudioUploader } from "@/components/audio";
+import { AudioExportDialog, AudioPlayButton, AudioUploader } from "@/components/audio";
 import MainContainer from "@/components/layout/MainContainer";
 
 import AudioMixer from "@/libs/audio/mixer";
-import { audioBufferToWav } from "@/libs/audio/wav";
-import { downloadFile } from "@/libs/common/toolkit";
+import AudioConverter from "@/libs/audio/converter";
+import type { AudioFormat, BitRate } from "@/libs/audio/effects";
 
 import useMultiTrackContext from "@/hooks/useMultiTrackContext";
 
@@ -23,18 +23,29 @@ const Composition = () => {
     addTracks(newTracks);
   };
 
-  const handleAudioExport = async (format: string) => {
+  const handleAudioExport = async (format: AudioFormat, rate: BitRate) => {
+    if (tracks.length === 0) return;
+
     const mixer = new AudioMixer(tracks);
-    const buffer = await mixer.getAudioBuffer();
-    const wav = audioBufferToWav(buffer);
-    const blob = new Blob([new DataView(wav)], {
-      type: "audio/wav"
+    const audioBuffer = await mixer.getAudioBuffer();
+
+    const converter = new AudioConverter(audioBuffer);
+    await converter.convert({
+      format: format,
+      bitrate: rate
     });
-    downloadFile(blob, "output.wav");
+    await converter.download();
   };
 
   return (
-    <MainContainer onExport={(format) => handleAudioExport(format)}>
+    <MainContainer
+      rightSlot={
+        <AudioExportDialog
+          disable={tracks.length === 0}
+          onExport={(f, r) => handleAudioExport(f, r)}
+        />
+      }
+    >
       {tracks.length === 0 && (
         <AudioUploader
           multiple={true}

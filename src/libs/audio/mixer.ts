@@ -1,3 +1,5 @@
+import { SAMPLE_RATE } from "./effects";
+
 export interface Track {
   url: string;
   position: number;
@@ -29,13 +31,12 @@ class AudioMixer {
 
     this.loadedTracks = await Promise.all(this.tracks.map((track) => loadTrack(track)));
 
-    const sampleRate = 44100;
     const totalDuration = this.loadedTracks.reduce(
       (maxDuration, { track, audioBuffer }) => Math.max(maxDuration, track.position + audioBuffer.duration),
       0
     );
 
-    this.offlineContext = new OfflineAudioContext(2, Math.ceil(sampleRate * totalDuration), sampleRate);
+    this.offlineContext = new OfflineAudioContext(2, Math.ceil(SAMPLE_RATE * totalDuration), SAMPLE_RATE);
   }
 
   private mixAllTracks() {

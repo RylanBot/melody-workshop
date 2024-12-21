@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Radio } from "tdesign-react";
 
-import { AudioCutter, AudioEqualizer, AudioPlayButton, AudioUploader } from "@/components/audio";
+import { AudioCutter, AudioEqualizer, AudioExportDialog, AudioPlayButton, AudioUploader } from "@/components/audio";
 import MainContainer from "@/components/layout/MainContainer";
 
-import { sliceBufferByTime } from "@/libs/audio/effects";
-import { audioBufferToWav } from "@/libs/audio/wav";
+import AudioConverter from "@/libs/audio/converter";
+import { AudioFormat, BitRate, sliceBufferByTime } from "@/libs/audio/effects";
 import { secondsToTime } from "@/libs/common/time";
-import { downloadFile } from "@/libs/common/toolkit";
 
 import useWaveSurferContext from "@/hooks/useWaveSurferContext";
 
@@ -29,27 +28,28 @@ function Processing() {
     initTrack(audio);
   };
 
-  const handleAudioExport = async (format: string) => {
+  const handleAudioExport = async (format: AudioFormat, rate: BitRate) => {
     if (!processorRef.current) return;
 
     let audioBuffer = await processorRef.current.getAudioBuffer();
     audioBuffer = sliceBufferByTime(audioBuffer, startTime, endTime);
 
-    const wav = audioBufferToWav(audioBuffer);
-    const blob = new Blob([new DataView(wav)], {
-      type: "audio/wav"
+    const converter = new AudioConverter(audioBuffer);
+    await converter.convert({
+      format: format,
+      bitrate: rate
     });
-    downloadFile(blob, "output.wav");
+    await converter.download(audioName.split(".")[0]);
   };
 
   return (
     <MainContainer
-      onExport={(format) => handleAudioExport(format)}
-      slot={
+      leftSlot={
         <Radio.Group
           variant="default-filled"
           defaultValue={TAB_LIST[0].id}
           onChange={(id) => setActiveTab(id as string)}
+          style={{ border: "2px solid #16a34a", borderBottom: "transparent", borderRadius: "0px" }}
         >
           {TAB_LIST.map((tab) => (
             <Radio.Button
@@ -63,6 +63,12 @@ function Processing() {
             </Radio.Button>
           ))}
         </Radio.Group>
+      }
+      rightSlot={
+        <AudioExportDialog
+          disable={!processorRef.current}
+          onExport={(f, r) => handleAudioExport(f, r)}
+        />
       }
     >
       {/* 上传 */}

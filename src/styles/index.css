@@ -30,6 +30,10 @@ button {
   font-family: var(--font-mono) !important;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 /* PatternFormat */
 input[inputmode="numeric"] {
   height: var(--td-comp-size-m);
@@ -53,11 +57,24 @@ input[inputmode="numeric"] {
 }
 
 /* Radio */
-.t-radio-group.t-radio-group--filled {
-  border: 2px solid !important;
-  border-color: #16a34a !important;
-  border-bottom: 0px !important;
-  border-radius: 0 !important;
+.t-radio__label {
+  font-size: 0.9rem !important;
+  font-family: var(--font-mono) !important;
+}
+
+/* Dialog */
+.t-dialog {
+  border: 3px solid var(--theme-color) !important;
+  padding: 20px 35px !important;
+  padding-bottom: 0px !important;
+}
+.t-dialog__mask {
+  backdrop-filter: blur(1.5px);
+}
+.t-dialog__close {
+  font-size: 2rem !important;
+  width: 2rem !important;
+  height: 2rem !important;
 }
 
 /* WaveSurfer */
