@@ -4,21 +4,21 @@ function Dashboard() {
   const intros = [
     {
       path: "processing",
-      icon: "i-hugeicons:file-sync",
+      icon: "i-hugeicons:file-audio",
       title: "Audio Processing",
-      description: "format conversion, speed adjustment and range clipping"
+      description: "cutting ranges and adjusting filters"
     },
     {
-      path: "composition",
-      icon: "i-hugeicons:file-audio",
-      title: "Audio Composition",
-      description: "mix and join multiple tracks into one file"
+      path: "mixing",
+      icon: "i-hugeicons:file-sync",
+      title: "Audio Mixing",
+      description: "combining multiple tracks into a single file"
     }
   ];
 
   return (
     <div className="h-screen flex-center flex-col p-6">
-      <div className="flex gap-10">
+      <div className="flex gap-16">
         {intros.map((intro, key) => (
           <IntroCard
             key={key}

@@ -7,7 +7,7 @@ import { MultiTrackProvider } from "@/hooks/useMultiTrackContext";
 import useSettings from "@/hooks/useSettings";
 import { WaveSurferProvider } from "@/hooks/useWaveSurferContext";
 
-import Composition from "@/pages/Composition";
+import Mixing from "@/pages/Mixing";
 import Dashboard from "@/pages/Dashboard";
 import Processing from "@/pages/Processing";
 
@@ -45,10 +45,10 @@ function App() {
           )
         },
         {
-          path: "/composition",
+          path: "/mixing",
           element: (
             <MultiTrackProvider>
-              <Composition />
+              <Mixing />
             </MultiTrackProvider>
           )
         }

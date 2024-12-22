@@ -9,7 +9,7 @@ import type { AudioFormat, BitRate } from "@/libs/audio/effects";
 
 import useMultiTrackContext from "@/hooks/useMultiTrackContext";
 
-const Composition = () => {
+const Mixing = () => {
   const { containerRef, tracks, isPlaying, activeId, togglePlay, addTracks, deleteTrack, setTrackVolume } =
     useMultiTrackContext();
 
@@ -119,4 +119,4 @@ const Composition = () => {
   );
 };
 
-export default Composition;
+export default Mixing;
