@@ -8,7 +8,7 @@ const AudioEqualizer: React.FC = () => {
   const { processorRef } = useWaveSurferContext();
 
   const [filterGains, setFilterGains] = useState<number[]>(Array(EQ_BANDS.length).fill(0));
-  const [activePreset, setActivePreset] = useState<string>(EQ_PRESETS[0]);
+  const [activePreset, setActivePreset] = useState<string>(Object.keys(EQ_PRESETS)[0]);
 
   const handleFilterGainChange = (index: number, value: number) => {
     if (!processorRef.current) return;
@@ -18,15 +18,24 @@ const AudioEqualizer: React.FC = () => {
     processorRef.current.applyFilter(newFilterGains);
   };
 
+  const handlePresetChange = (preset: string) => {
+    if (!processorRef.current) return;
+    setActivePreset(preset);
+    const presetGains = EQ_PRESETS[preset];
+    setFilterGains(presetGains);
+    processorRef.current.applyFilter(presetGains);
+  };
+
   return (
     <div>
       <div className="flex justify-end items-center mb-8">
         <strong m="r-3">Preset: </strong>
         <Select
           autoWidth={true}
-          options={EQ_PRESETS.map((item) => ({ label: item, value: item }))}
+          disabled={!processorRef.current}
+          options={Object.keys(EQ_PRESETS).map((item) => ({ label: item, value: item }))}
           value={activePreset}
-          onChange={(value) => setActivePreset(value as string)}
+          onChange={(preset) => handlePresetChange(preset as string)}
           style={{ width: "25%" }}
         />
       </div>
