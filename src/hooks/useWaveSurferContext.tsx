@@ -31,9 +31,10 @@ const useWaveSurferContext = () => {
 export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const waveSurferRef = useRef<WaveSurfer | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const regionsRef = useRef<RegionsPlugin | null>(null);
 
+  const regionsRef = useRef<RegionsPlugin | null>(null);
   const processorRef = useRef<AudioProcessor | null>(null);
+  const preCursorTime = useRef<number>(0);
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
@@ -61,11 +62,9 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     });
 
     /* 波谱相关事件 */
-    waveSurferRef.current.on("ready", () => {
-      processorRef.current = new AudioProcessor(waveSurferRef!.current!.getMediaElement());
-    });
-
     waveSurferRef.current.on("decode", () => {
+      processorRef.current = new AudioProcessor(waveSurferRef!.current!.getMediaElement());
+
       const audioDuration = waveSurferRef.current!.getDuration();
       setDuration(Number(audioDuration.toFixed(3)));
 
@@ -77,40 +76,57 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
 
     waveSurferRef.current.on("play", () => setIsPlaying(true));
     waveSurferRef.current.on("pause", () => setIsPlaying(false));
-    waveSurferRef.current.on("click", () => waveSurferRef.current!.pause());
+
+    waveSurferRef.current.on("click", () => {
+      // 防止点击跳出 region
+      const currentTime = waveSurferRef.current!.getCurrentTime();
+      const region = regionsRef.current?.getRegions()[0];
+      if (currentTime <= region!.start || currentTime >= region!.end) {
+        // 重新从开始时间播放
+        waveSurferRef.current!.setTime(preCursorTime.current);
+      }
+    });
 
     waveSurferRef.current.on("timeupdate", () => {
       // 只播放选中部分
       const currentTime = waveSurferRef.current!.getCurrentTime();
       const region = regionsRef.current?.getRegions()[0];
-      // note: 不能直接和 endTime 比较，监听器引用的可能不是实时值
-      if (region && currentTime >= region.end) {
-        waveSurferRef!.current!.pause();
+      if (currentTime >= region!.end) {
+        waveSurferRef.current!.pause();
+      }
+      if (currentTime >= region!.start && currentTime <= region!.end) {
+        preCursorTime.current = currentTime;
       }
     });
 
     /* 选区相关事件 */
     regionsRef.current.on("region-created", (region) => syncRegionTime(region));
-    regionsRef.current.on("region-updated", (region) => syncRegionTime(region));
+    regionsRef.current.on("region-update", (region) => syncRegionTime(region));
   };
 
   const togglePlay = () => {
-    if (waveSurferRef.current) {
-      waveSurferRef.current.playPause();
+    if (!waveSurferRef.current) return;
+
+    const currentTime = waveSurferRef.current.getCurrentTime();
+    const region = regionsRef.current!.getRegions()[0];
+
+    if (currentTime >= region.end) {
+      waveSurferRef.current.setTime(startTime);
     }
+
+    waveSurferRef.current?.playPause();
   };
 
   const cleanUpResource = () => {
     setStartTime(0);
     setEndTime(0);
+    preCursorTime.current = 0;
     if (waveSurferRef.current) {
       waveSurferRef.current.destroy();
       waveSurferRef.current = null;
-    }
-    if (regionsRef.current) {
-      regionsRef.current.destroy();
+      regionsRef.current?.destroy();
       regionsRef.current = null;
-}
+    }
     if (processorRef.current) {
       processorRef.current.destroy();
       processorRef.current = null;
@@ -124,13 +140,26 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
   }, []);
 
   useEffect(() => {
+    if (waveSurferRef.current?.isPlaying()) {
+      waveSurferRef.current?.pause();
+    }
+
+    const region = regionsRef.current?.getRegions()[0];
+    if (!region) return;
+
     // 同步外界 input 的修改
-    const region = regionsRef?.current?.getRegions()[0];
-    if (region && startTime < endTime) {
+    if (startTime < endTime) {
       region.setOptions({
         start: startTime,
         end: endTime
       });
+    }
+
+    const start = region.start;
+    const end = region.end;
+    if (preCursorTime.current < start || preCursorTime.current > end) {
+      preCursorTime.current = start;
+      waveSurferRef.current?.setTime(start);
     }
   }, [startTime, endTime]);
 
@@ -152,6 +181,6 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
       {children}
     </WaveSurferContext.Provider>
   );
-}
+};
 
 export default useWaveSurferContext;
