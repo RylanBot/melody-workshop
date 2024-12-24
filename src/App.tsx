@@ -12,10 +12,12 @@ import Dashboard from "@/pages/Dashboard";
 import Processing from "@/pages/Processing";
 
 import TopNav from "@/components/layout/TopNav";
+import LoadingOverlay from "@/components/layout/LoadingOverlay";
 
 function Layout() {
   return (
     <div>
+      <LoadingOverlay />
       <TopNav />
       <Outlet />
     </div>

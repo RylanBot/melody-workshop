@@ -8,10 +8,12 @@ import AudioConverter from "@/libs/audio/converter";
 import type { AudioFormat, BitRate } from "@/libs/audio/effects";
 
 import useMultiTrackContext from "@/hooks/useMultiTrackContext";
+import { useSettingStore } from "@/stores/settingStore";
 
 const Mixing = () => {
   const { containerRef, tracks, isPlaying, activeId, togglePlay, addTracks, deleteTrack, setTrackVolume } =
     useMultiTrackContext();
+  const { setLoading } = useSettingStore();
 
   const handleAddTracks = (files: File[]) => {
     if (files.length === 0) return;
@@ -25,6 +27,7 @@ const Mixing = () => {
 
   const handleAudioExport = async (format: AudioFormat, rate: BitRate) => {
     if (tracks.length === 0) return;
+    setLoading(true);
 
     const mixer = new AudioMixer(tracks);
     const audioBuffer = await mixer.getAudioBuffer();
@@ -35,6 +38,8 @@ const Mixing = () => {
       bitrate: rate
     });
     await converter.download();
+
+    setLoading(false);
   };
 
   return (

@@ -9,10 +9,12 @@ import { AudioFormat, BitRate, sliceBufferByTime } from "@/libs/audio/effects";
 import { secondsToTime } from "@/libs/common/time";
 
 import useWaveSurferContext from "@/hooks/useWaveSurferContext";
+import { useSettingStore } from "@/stores/settingStore";
 
 function Processing() {
   const { containerRef, processorRef, duration, startTime, endTime, isPlaying, initTrack, togglePlay } =
     useWaveSurferContext();
+  const { setLoading } = useSettingStore();
 
   const [audioName, setAudioName] = useState<string>("");
 
@@ -30,6 +32,7 @@ function Processing() {
 
   const handleAudioExport = async (format: AudioFormat, rate: BitRate) => {
     if (!processorRef.current) return;
+    setLoading(true);
 
     let audioBuffer = await processorRef.current.getAudioBuffer();
     audioBuffer = sliceBufferByTime(audioBuffer, startTime, endTime);
@@ -40,6 +43,8 @@ function Processing() {
       bitrate: rate
     });
     await converter.download(audioName.split(".")[0]);
+
+    setLoading(false);
   };
 
   return (
