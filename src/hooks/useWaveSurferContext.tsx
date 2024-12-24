@@ -37,14 +37,14 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-  /* 时间单位 - 秒（s），保留两位小数 */
+  /* 时间单位 - 秒（s），保留三位小数 */
   const [duration, setDuration] = useState<number>(0);
   const [startTime, setStartTime] = useState<number>(0);
   const [endTime, setEndTime] = useState<number>(0);
 
   const syncRegionTime = (region: Region) => {
-    setStartTime(Number(region.start.toFixed(2)));
-    setEndTime(Number(region.end.toFixed(2)));
+    setStartTime(Number(region.start.toFixed(3)));
+    setEndTime(Number(region.end.toFixed(3)));
   };
 
   const initWaveform = (audioElement: HTMLAudioElement) => {
@@ -67,7 +67,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
 
     waveSurferRef.current.on("decode", () => {
       const audioDuration = waveSurferRef.current!.getDuration();
-      setDuration(Number(audioDuration.toFixed(2)));
+      setDuration(Number(audioDuration.toFixed(3)));
 
       regionsRef.current!.addRegion({
         start: 0,
@@ -152,6 +152,6 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
       {children}
     </WaveSurferContext.Provider>
   );
-};
+}
 
 export default useWaveSurferContext;

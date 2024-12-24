@@ -1,7 +1,5 @@
-import { useEffect, useRef } from "react";
 import { PatternFormat } from "react-number-format";
-
-import { formatTime, isTimeSmallerThan } from "@/libs/common/time";
+import { isTimeSmallerThan, millisecondsToTime } from "@/libs/common/time";
 
 interface AudioTimeInputProps {
   max: string; // 音频本身长度
@@ -10,51 +8,33 @@ interface AudioTimeInputProps {
 }
 
 const AudioTimeInput: React.FC<AudioTimeInputProps> = ({ max, time, onChange }) => {
-  const currentTimeRef = useRef<string>("00:00:00");
-
-  useEffect(() => {
-    currentTimeRef.current = time;
-  }, [time]);
-
   const onTimeChange = (newTime: string) => {
     if (isTimeSmallerThan(newTime, max)) {
-      currentTimeRef.current = newTime;
       onChange(newTime);
     }
   };
 
   const handleIncrease = () => {
-    let [minutes, seconds, milliseconds] = currentTimeRef.current.split(":").map(Number);
+    let [minutes, seconds, milliseconds] = time.split(":").map(Number);
 
-    milliseconds += 1;
-    if (milliseconds >= 100) {
-      milliseconds = 0;
-      seconds += 1; // 进位到秒
-    }
-    if (seconds >= 60) {
-      seconds = 0;
-      minutes += 1; // 进位到分钟
-    }
+    let totalMs = minutes * 60 * 1000 + seconds * 1000 + milliseconds;
+    totalMs += 100;
 
-    const newTime = formatTime(minutes, seconds, milliseconds);
+    const newTime = millisecondsToTime(totalMs);
     onTimeChange(newTime);
   };
 
   const handleDecrease = () => {
-    let [minutes, seconds, milliseconds] = currentTimeRef.current.split(":").map(Number);
+    let [minutes, seconds, milliseconds] = time.split(":").map(Number);
 
-    if (milliseconds > 0) {
-      milliseconds -= 1;
-    } else if (seconds > 0) {
-      seconds -= 1;
-      milliseconds = 99;
-    } else if (minutes > 0) {
-      minutes -= 1;
-      seconds = 59;
-      milliseconds = 99;
+    let totalMs = minutes * 60 * 1000 + seconds * 1000 + milliseconds;
+    totalMs -= 100;
+
+    if (totalMs < 0) {
+      totalMs = 0;
     }
 
-    const newTime = formatTime(minutes, seconds, milliseconds);
+    const newTime = millisecondsToTime(totalMs);
     onTimeChange(newTime);
   };
 
@@ -62,9 +42,9 @@ const AudioTimeInput: React.FC<AudioTimeInputProps> = ({ max, time, onChange }) 
     <>
       <div className="flex">
         <PatternFormat
-          value={currentTimeRef.current}
-          format="##:##:##"
-          mask="_"
+          value={time}
+          format="##:##:###"
+          mask=""
           onChange={(e) => onTimeChange(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Backspace") e.preventDefault(); // 避免文本删除 -> 需要引入复杂校验逻辑
