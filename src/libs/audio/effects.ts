@@ -18,8 +18,8 @@ export const EQ_PRESETS: Record<string, number[]> = {
 
 export const sliceBufferByTime = (buffer: AudioBuffer, start: number, end: number) => {
   const sampleRate = buffer.sampleRate;
-  const startSample = Math.max(0, Math.floor(start * sampleRate));
-  const endSample = Math.min(buffer.length, Math.floor(end * sampleRate));
+  const startSample = Math.max(0, Math.round(start * sampleRate));
+  const endSample = Math.min(buffer.length, Math.round(end * sampleRate));
 
   const slicedBuffer = new AudioBuffer({
     length: endSample - startSample,

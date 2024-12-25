@@ -1,14 +1,23 @@
-import { EQ_BANDS } from "./effects";
+import { EQ_BANDS, sliceBufferByTime } from "./effects";
+import { BufferedTS } from "./ola";
+
+type TimePosition = { start: number; end: number };
 
 class AudioProcessor {
+  private audioElement: HTMLMediaElement;
   private audioContext: AudioContext;
   private sourceNode: MediaElementAudioSourceNode;
+
+  private position: TimePosition = { start: 0, end: 0 };
+  private speed: number = 1;
 
   /* 效果节点 */
   private gainNode: GainNode | null = null;
   private filterNodes: BiquadFilterNode[] | null = null;
 
   constructor(audio: HTMLMediaElement) {
+    this.audioElement = audio;
+
     const audioContext = new AudioContext();
     this.audioContext = audioContext;
 
@@ -36,9 +45,6 @@ class AudioProcessor {
     }
   }
 
-  /**
-   * @param volume 范围 0 ~ 1
-   */
   public applyVolume(volume: number) {
     if (!this.gainNode) {
       this.gainNode = this.audioContext.createGain();
@@ -48,9 +54,6 @@ class AudioProcessor {
     this.updateAudioChain();
   }
 
-  /**
-   * @param filterGains 增益数组
-   */
   public applyFilter(filterGains: number[]) {
     if (!this.filterNodes) {
       this.filterNodes = EQ_BANDS.map((band) => {
@@ -69,20 +72,29 @@ class AudioProcessor {
     this.updateAudioChain();
   }
 
+  public async applySpeed(speed: number) {
+    this.audioElement.playbackRate = speed;
+    this.speed = speed;
+  }
+
+  public updateTimePosition(position: TimePosition) {
+    this.position = position;
+  }
+
   public async getAudioBuffer() {
     const response = await fetch(this.sourceNode.mediaElement.src);
     const arrayBuffer = await response.arrayBuffer();
+
     const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
-  
     const offlineContext = new OfflineAudioContext(
       audioBuffer.numberOfChannels,
       audioBuffer.length,
       audioBuffer.sampleRate
     );
-  
+
     const offlineSourceNode = offlineContext.createBufferSource();
     offlineSourceNode.buffer = audioBuffer;
-  
+
     const allNodes: AudioNode[] = [offlineSourceNode];
     /**
      * 克隆节点，避免报错：
@@ -103,18 +115,33 @@ class AudioProcessor {
         allNodes.push(clonedFilter);
       });
     }
-  
+
     allNodes.push(offlineContext.destination);
-  
+
     for (let i = 0; i < allNodes.length - 1; i++) {
       allNodes[i].connect(allNodes[i + 1]);
     }
-  
+
     offlineSourceNode.start();
     const renderedBuffer = await offlineContext.startRendering();
-    return renderedBuffer;
+
+    // 变速
+    let finalBuffer = this.audioContext.createBuffer(
+      renderedBuffer.numberOfChannels,
+      renderedBuffer.length / this.speed,
+      renderedBuffer.sampleRate
+    );
+
+    const ola = new BufferedTS();
+    ola.set_audio_buffer(renderedBuffer);
+    ola.alpha = 1 / this.speed;
+    ola.process(finalBuffer);
+
+    // 切割
+    finalBuffer = sliceBufferByTime(finalBuffer, this.position.start, this.position.end / this.speed);
+    return finalBuffer;
   }
-  
+
   public destroy() {
     this.sourceNode.disconnect();
     this.gainNode?.disconnect();

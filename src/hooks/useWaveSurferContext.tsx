@@ -161,6 +161,8 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
       preCursorTime.current = start;
       waveSurferRef.current?.setTime(start);
     }
+
+    processorRef.current!.updateTimePosition({ start, end });
   }, [startTime, endTime]);
 
   return (

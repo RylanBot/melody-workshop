@@ -8,7 +8,9 @@ import AudioTimeInput from "./AudioTimeInput";
 
 const AudioCutter: React.FC = () => {
   const { processorRef, duration, startTime, endTime, setStartTime, setEndTime } = useWaveSurferContext();
+
   const [volume, setVolume] = useState<number>(1);
+  const [speed, setSpeed] = useState<number>(1);
 
   const validateStartTime = (time: string) => {
     const secondes = timeToSeconds(time);
@@ -28,12 +30,18 @@ const AudioCutter: React.FC = () => {
     processorRef.current.applyVolume(volume);
   };
 
+  const handleSpeedChange = (speed: number) => {
+    if (!processorRef.current) return;
+    setSpeed(speed);
+    processorRef.current.applySpeed(speed);
+  };
+
   return (
     <div className="space-y-10">
       {/* 时间 */}
       <div className="flex items-center space-x-8">
         <div className="flex-center">
-          <strong className="mr-2">Start: </strong>
+          <strong className="mr-4">Start: </strong>
           <AudioTimeInput
             max={secondsToTime(duration)}
             time={secondsToTime(startTime)}
@@ -41,7 +49,7 @@ const AudioCutter: React.FC = () => {
           />
         </div>
         <div className="flex-center">
-          <strong className="mr-2">End: </strong>
+          <strong className="mr-4">End: </strong>
           <AudioTimeInput
             max={secondsToTime(duration)}
             time={secondsToTime(endTime)}
@@ -59,6 +67,18 @@ const AudioCutter: React.FC = () => {
           disabled={!processorRef.current}
           value={volume}
           onChange={(value) => handleVolumeChange(value as number)}
+        />
+      </div>
+      {/* 音速 */}
+      <div className="flex pr-4">
+        <strong className="mr-6">Speed: </strong>
+        <Slider
+          min={0.5}
+          max={4}
+          step={0.1}
+          disabled={!processorRef.current}
+          value={speed}
+          onChange={(value) => handleSpeedChange(value as number)}
         />
       </div>
     </div>

@@ -1,7 +1,10 @@
 /**
+ * -----------------------------------------------------------
  * 算法源码参考
  * @see https://github.com/Experience-Monks/audiobuffer-to-wav
+ * -----------------------------------------------------------
  */
+
 export const audioBufferToWav = (buffer: AudioBuffer, float32: boolean = false) => {
   const numChannels = buffer.numberOfChannels;
   const sampleRate = buffer.sampleRate;
