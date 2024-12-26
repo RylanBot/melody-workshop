@@ -1,8 +1,8 @@
 import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 import MultiTrack from "wavesurfer-multitrack";
 
-import { TRACK_OPTIONS } from "@/libs/common/config";
 import { Track } from "@/libs/audio/mixer";
+import { TRACK_OPTIONS } from "@/libs/common/config";
 
 interface TrackMeta extends Track {
   id: number;
@@ -15,6 +15,7 @@ interface MultiTrackContextType {
   isPlaying: boolean;
   activeId: number;
   togglePlay: () => void;
+  replay: () => void;
   addTracks: (audio: { url: string; name: string }[]) => void;
   deleteTrack: () => void;
   setTrackVolume: (volume: number) => void;
@@ -34,8 +35,10 @@ export const MultiTrackProvider: React.FC<{ children: ReactNode }> = ({ children
   const multiTrackRef = useRef<MultiTrack | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const isEnded = useRef<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
   const [tracks, setTracks] = useState<TrackMeta[]>([]);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [activeId, setActiveId] = useState<number>(0);
 
   const createMultiTrack = (audio: TrackMeta[]) => {
@@ -98,10 +101,18 @@ export const MultiTrackProvider: React.FC<{ children: ReactNode }> = ({ children
   };
 
   const togglePlay = () => {
-    if (multiTrackRef.current) {
-      multiTrackRef.current.isPlaying() ? multiTrackRef.current.pause() : multiTrackRef.current.play();
-      setIsPlaying(!isPlaying);
-    }
+    if (!multiTrackRef.current || isEnded.current) return;
+    multiTrackRef.current.isPlaying() ? multiTrackRef.current.pause() : multiTrackRef.current.play();
+    setIsPlaying(!isPlaying);
+    isEnded.current = false;
+  };
+
+  const replay = () => {
+    if (!multiTrackRef.current) return;
+    setIsPlaying(true);
+    isEnded.current = false;
+    multiTrackRef.current.setTime(0);
+    multiTrackRef.current.play();
   };
 
   const setTrackVolume = (volume: number) => {
@@ -159,6 +170,9 @@ export const MultiTrackProvider: React.FC<{ children: ReactNode }> = ({ children
           const left = cursorDiv.style.left;
           if (left === "100%") {
             setIsPlaying(false);
+            isEnded.current = true;
+          } else {
+            isEnded.current = false;
           }
         }
       });
@@ -182,6 +196,7 @@ export const MultiTrackProvider: React.FC<{ children: ReactNode }> = ({ children
         isPlaying,
         activeId,
         togglePlay,
+        replay,
         addTracks,
         deleteTrack,
         setTrackVolume

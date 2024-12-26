@@ -14,6 +14,7 @@ interface WaveSurferContextType {
   endTime: number;
   initTrack: (audio: HTMLAudioElement) => void;
   togglePlay: () => void;
+  replay: () => void;
   setStartTime: (time: number) => void;
   setEndTime: (time: number) => void;
 }
@@ -48,7 +49,7 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
     setEndTime(Number(region.end.toFixed(3)));
   };
 
-  const initWaveform = (audioElement: HTMLAudioElement) => {
+  const initTrack = (audioElement: HTMLAudioElement) => {
     if (!containerRef.current) return;
     cleanUpResource();
 
@@ -106,15 +107,15 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
 
   const togglePlay = () => {
     if (!waveSurferRef.current) return;
+    waveSurferRef.current?.playPause();
+  };
 
-    const currentTime = waveSurferRef.current.getCurrentTime();
+  const replay = () => {
+    if (!waveSurferRef.current) return;
     const region = regionsRef.current!.getRegions()[0];
 
-    if (currentTime >= region.end) {
-      waveSurferRef.current.setTime(startTime);
-    }
-
-    waveSurferRef.current?.playPause();
+    waveSurferRef.current.setTime(region.start);
+    waveSurferRef.current?.play();
   };
 
   const cleanUpResource = () => {
@@ -174,8 +175,9 @@ export const WaveSurferProvider: React.FC<{ children: ReactNode }> = ({ children
         duration,
         startTime,
         endTime,
-        initTrack: initWaveform,
+        initTrack,
         togglePlay,
+        replay,
         setStartTime,
         setEndTime
       }}

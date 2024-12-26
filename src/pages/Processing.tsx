@@ -12,7 +12,7 @@ import useWaveSurferContext from "@/hooks/useWaveSurferContext";
 import { useSettingStore } from "@/stores/settingStore";
 
 function Processing() {
-  const { containerRef, processorRef, duration, startTime, endTime, isPlaying, initTrack, togglePlay } =
+  const { containerRef, processorRef, duration, startTime, endTime, isPlaying, initTrack, togglePlay, replay } =
     useWaveSurferContext();
   const { setLoading } = useSettingStore();
 
@@ -125,6 +125,7 @@ function Processing() {
         <AudioPlayButton
           isPlaying={isPlaying}
           togglePlay={togglePlay}
+          replay={replay}
         />
         {/* 调节子组件 */}
         {TAB_LIST.map((tab) => (

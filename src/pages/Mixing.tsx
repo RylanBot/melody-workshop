@@ -11,7 +11,7 @@ import useMultiTrackContext from "@/hooks/useMultiTrackContext";
 import { useSettingStore } from "@/stores/settingStore";
 
 const Mixing = () => {
-  const { containerRef, tracks, isPlaying, activeId, togglePlay, addTracks, deleteTrack, setTrackVolume } =
+  const { containerRef, tracks, isPlaying, activeId, togglePlay, replay, addTracks, deleteTrack, setTrackVolume } =
     useMultiTrackContext();
   const { setLoading } = useSettingStore();
 
@@ -76,6 +76,7 @@ const Mixing = () => {
               <AudioPlayButton
                 isPlaying={isPlaying}
                 togglePlay={togglePlay}
+                replay={replay}
               />
               {/* 新增音轨 */}
               <label className="bg-td-brand dark:bg-td-brand-dark text-white px-4 py-1 rounded-sm">
@@ -112,7 +113,7 @@ const Mixing = () => {
                   min={0}
                   max={1}
                   step={0.1}
-                  value={tracks[activeId].volume}
+                  value={tracks[activeId].volume ?? 1}
                   onChange={(value) => setTrackVolume(value as number)}
                 />
               </div>
