@@ -140,10 +140,18 @@ input[inputmode="numeric"] {
 }
 
 #multitrack > div > div > div.active {
-  border: 2px dotted;
-  border-color: var(--theme-color) !important;
-  border-left: 6px solid;
-  border-right: 6px solid;
+  padding: 10px 0px;
+}
+
+#multitrack > div > div > div.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px dotted var(--theme-color);
+  border-left: 6px solid var(--theme-color);
+  border-right: 6px solid var(--theme-color);
   border-radius: 2px;
-  padding: 12px !important;
 }
