@@ -1,11 +1,12 @@
+import { useRef } from "react";
 import { Button, Slider } from "tdesign-react";
 
 import { AudioExportDialog, AudioPlayButton, AudioUploader } from "@/components/audio";
-import MainContainer from "@/components/layout/MainContainer";
+import { MainContainer } from "@/components/layout";
 
-import AudioMixer from "@/libs/audio/mixer";
 import AudioConverter from "@/libs/audio/converter";
 import type { AudioFormat, BitRate } from "@/libs/audio/effects";
+import AudioMixer from "@/libs/audio/mixer";
 
 import useMultiTrackContext from "@/hooks/useMultiTrackContext";
 import { useSettingStore } from "@/stores/settingStore";
@@ -14,6 +15,8 @@ const Mixing = () => {
   const { containerRef, tracks, isPlaying, activeId, togglePlay, replay, addTracks, deleteTrack, setTrackVolume } =
     useMultiTrackContext();
   const { setLoading } = useSettingStore();
+
+  const audioInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddTracks = (files: File[]) => {
     if (files.length === 0) return;
@@ -59,7 +62,7 @@ const Mixing = () => {
           labelHeight="h-2/3"
         />
       )}
-      <div className={`${tracks.length > 0 ? "h-[72%] mt-8" : undefined}`}>
+      <div className={`${tracks.length > 0 ? "h-[72%] mt-8 max-sm:h-[65%]" : undefined}`}>
         <div
           id="multitrack"
           ref={containerRef}
@@ -69,9 +72,12 @@ const Mixing = () => {
       {tracks.length > 0 && (
         <>
           <div className="flex justify-end text-sm italic my-3">
-            <div className="truncate">{tracks[activeId]?.name}</div>
+            <div className="truncate w-125 text-right">{tracks[activeId]?.name}</div>
           </div>
-          <div className="flex-between">
+          <div
+            className="flex-between"
+            max-sm="flex-col space-y-4 mt-5"
+          >
             <div className="flex items-center space-x-5">
               <AudioPlayButton
                 isPlaying={isPlaying}
@@ -79,8 +85,9 @@ const Mixing = () => {
                 replay={replay}
               />
               {/* 新增音轨 */}
-              <label className="bg-td-brand dark:bg-td-brand-dark text-white px-4 py-1 rounded-sm">
+              <label>
                 <input
+                  ref={audioInputRef}
                   type="file"
                   accept="audio/*"
                   className="hidden"
@@ -90,10 +97,17 @@ const Mixing = () => {
                     event.target.value = "";
                   }}
                 />
-                <div className="flex-center">
-                  <div className="i-material-symbols:add-circle mr-2 text-lg"></div>
-                  <div font="bold">Add Tracks</div>
-                </div>
+                <Button onClick={() => audioInputRef.current?.click()}>
+                  <div className="flex-center">
+                    <div className="i-material-symbols:add-circle text-lg"></div>
+                    <div
+                      className="font-bold ml-2"
+                      max-sm="hidden"
+                    >
+                      Add Tracks
+                    </div>
+                  </div>
+                </Button>
               </label>
             </div>
             <div className="flex-center space-x-3">
@@ -101,10 +115,15 @@ const Mixing = () => {
               <Button
                 theme="primary"
                 variant="outline"
-                icon={<div className="i-solar:trash-bin-trash-outline mr-2 text-lg"></div>}
+                icon={<div className="i-solar:trash-bin-trash-outline text-lg"></div>}
                 onClick={deleteTrack}
               >
-                <span font="bold">Delete</span>
+                <span
+                  className="font-bold ml-2"
+                  max-sm="hidden"
+                >
+                  Delete
+                </span>
               </Button>
               {/* 调节音量 */}
               <div className="w-46 flex-center bg-white dark:bg-dark-500 border-1 border-green-500 rounded-sm py-1 pl-4 pr-6">

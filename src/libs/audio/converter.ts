@@ -1,7 +1,7 @@
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 
-import { AudioFormat, BitRate, SAMPLE_RATE } from "./effects";
+import { type AudioFormat, type BitRate, SAMPLE_RATE } from "./effects";
 import { audioBufferToWav } from "./wav";
 
 interface AudioConverterOptions {

@@ -19,17 +19,26 @@ const TopNav: React.FC = () => {
   };
 
   return (
-    <div className="absolute w-screen flex-between my-10 px-12">
+    <nav
+      className="h-[5vh] w-screen flex-between py-10 px-12"
+      max-sm="px-4"
+    >
       <div className="flex-center">
         <div
           onClick={() => !isHome && navigate("/")}
           className={`flex-center mr-6 ${!isHome ? "cursor-pointer" : ""}`}
+          max-sm="mr-4"
         >
           <img
             src="favicon.png"
-            width={25}
+            className="w-8"
           />
-          <h1 className="text-2xl font-sans font-bold text-green-700 dark:text-green-500 ml-2">Melody Workshop</h1>
+          <h1
+            className="text-2xl max-sm:text-xl font-sans font-bold text-green-700 dark:text-green-500 ml-4"
+            max-sm={!isHome ? "hidden" : undefined}
+          >
+            Melody Workshop
+          </h1>
         </div>
         {!isHome && (
           <Tag
@@ -59,7 +68,7 @@ const TopNav: React.FC = () => {
           label={<div className="i-material-symbols:nightlight text-lg"></div>}
         ></TabPanel>
       </Tabs>
-    </div>
+    </nav>
   );
 };
 

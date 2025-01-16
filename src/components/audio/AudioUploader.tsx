@@ -36,10 +36,10 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({
         <button
           className="flex-center text-sm italic space-x-3"
           hover="text-green-500 font-bold"
+          max-sm="text-xs"
           onClick={loadDefaultAudio}
         >
-          <div>No local audio? Click here for the default to experience!</div>
-          <div className="i-tdesign:attach text-lg"></div>
+          <div>No local audio? Try the default here!</div>
         </button>
       </div>
       <label className={`${labelHeight} flex-center flex-col p-5 border-2 border-dashed border-green-500`}>
@@ -51,7 +51,7 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({
           onChange={handleAudioUpload}
         />
         <div className="i-line-md:uploading-loop text-3xl mb-2"></div>
-        <div className="font-bold ">Upload your audio file{multiple && "s"}</div>
+        <div className="font-bold max-sm:text-sm">Upload your audio file{multiple && "s"}</div>
       </label>
     </>
   );

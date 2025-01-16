@@ -7,18 +7,15 @@ import { MultiTrackProvider } from "@/hooks/useMultiTrackContext";
 import useSettings from "@/hooks/useSettings";
 import { WaveSurferProvider } from "@/hooks/useWaveSurferContext";
 
-import Mixing from "@/pages/Mixing";
-import Dashboard from "@/pages/Dashboard";
-import Processing from "@/pages/Processing";
-
-import TopNav from "@/components/layout/TopNav";
-import LoadingOverlay from "@/components/layout/LoadingOverlay";
+import { Footer, LoadingOverlay, TopNav } from "@/components/layout";
+import { Dashboard, Mixing, Processing } from "@/pages";
 
 function Layout() {
   return (
     <div>
       <LoadingOverlay />
       <TopNav />
+      <Footer />
       <Outlet />
     </div>
   );

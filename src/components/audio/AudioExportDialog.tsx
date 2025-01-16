@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Radio, Button, Dialog } from "tdesign-react";
+import { Button, Dialog, Radio } from "tdesign-react";
 
-import { BIT_RATE, AUDIO_FORMAT } from "@/libs/audio/effects";
-import type { BitRate, AudioFormat } from "@/libs/audio/effects";
+import { AUDIO_FORMAT, BIT_RATE, type AudioFormat, type BitRate } from "@/libs/audio/effects";
 
 interface AudioExportDialogProps {
   disable: boolean;
@@ -52,28 +51,34 @@ const AudioExportDialog: React.FC<AudioExportDialogProps> = ({ disable, onExport
             </div>
           </div>
 
-          <div>
+          <div className="h-24">
             <div className="font-bold mb-3">
               Bit Rate
               {!rateDisabled && <span className="text-sm text-stone-400 ml-2">(Higher quality, Larger file)</span>}
             </div>
-            {rateDisabled ? (
-              <div className="text-sm text-stone-400 italic font-bold mt-2">Selection is not available for this format</div>
-            ) : (
-              <div className="flex space-x-6">
-                {BIT_RATE.map((rate) => (
-                  <Radio
-                    key={rate}
-                    value={rate}
-                    checked={activeRate === rate}
-                    disabled={rateDisabled}
-                    onChange={() => setActiveRate(rate)}
-                  >
-                    {rate}
-                  </Radio>
-                ))}
-              </div>
-            )}
+            <div>
+              {rateDisabled ? (
+                <div className="text-sm text-stone-400 italic font-bold">Not available for this format</div>
+              ) : (
+                <div
+                  className="flex space-x-6"
+                  max-sm="space-x-4 mt-6"
+                >
+                  {BIT_RATE.map((rate) => (
+                    <Radio
+                      key={rate}
+                      value={rate}
+                      checked={activeRate === rate}
+                      disabled={rateDisabled}
+                      onChange={() => setActiveRate(rate)}
+                      className="flex-center max-sm:flex-col"
+                    >
+                      <div max-sm="my-1">{rate}</div>
+                    </Radio>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           <Button
             className="float-right"

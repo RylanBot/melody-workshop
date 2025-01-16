@@ -25,6 +25,7 @@ export default defineConfig({
     }
   },
   shortcuts: [
+    ["flex-start", "flex justify-start items-center"],
     ["flex-center", "flex justify-center items-center"],
     ["flex-between", "flex justify-between items-center"],
     ["flex-end", "flex justify-end items-center"]

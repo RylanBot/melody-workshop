@@ -1,4 +1,4 @@
-import IntroCard from "@/components/layout/IntroCard";
+import { IntroCard } from "@/components/layout";
 
 function Dashboard() {
   const intros = [
@@ -6,19 +6,22 @@ function Dashboard() {
       path: "processing",
       icon: "i-hugeicons:file-audio",
       title: "Audio Processing",
-      description: "cutting ranges and adjusting filters"
+      description: "cut ranges and adjust filters"
     },
     {
       path: "mixing",
       icon: "i-hugeicons:file-sync",
       title: "Audio Mixing",
-      description: "combining multiple tracks into a single file"
+      description: "combine multiple tracks into one"
     }
   ];
 
   return (
-    <div className="h-screen flex-center flex-col p-6">
-      <div className="flex gap-16">
+    <main className="h-[80vh] flex-center flex-col p-6">
+      <div
+        className="flex gap-16"
+        max-sm="flex-col"
+      >
         {intros.map((intro, key) => (
           <IntroCard
             key={key}
@@ -29,7 +32,7 @@ function Dashboard() {
           />
         ))}
       </div>
-    </div>
+    </main>
   );
 }
 

@@ -27,20 +27,25 @@ const AudioEqualizer: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-end items-center mb-8">
-        <strong m="r-3">Preset: </strong>
-        <Select
-          autoWidth={true}
-          disabled={!processorRef.current}
-          options={Object.keys(EQ_PRESETS).map((item) => ({ label: item, value: item }))}
-          value={activePreset}
-          onChange={(preset) => handlePresetChange(preset as string)}
-          style={{ width: "25%" }}
-        />
+    <>
+      <div className="flex-end my-8 w-full">
+        <div className="flex-center space-x-1">
+          <strong m="r-3">Preset</strong>
+          <Select
+            // autoWidth={true}
+            disabled={!processorRef.current}
+            options={Object.keys(EQ_PRESETS).map((item) => ({ label: item, value: item }))}
+            value={activePreset}
+            onChange={(preset) => handlePresetChange(preset as string)}
+            style={{ width: "125px" }}
+          />
+        </div>
       </div>
 
-      <div className="flex h-32 space-x-6">
+      <div
+        className="flex h-32 space-x-6"
+        max-sm="space-x-2"
+      >
         {filterGains.map((gain, index) => (
           <div
             key={index}
@@ -54,11 +59,14 @@ const AudioEqualizer: React.FC = () => {
               disabled={!processorRef.current}
               onChange={(value) => handleFilterGainChange(index, value as number)}
             />
-            <div className="mt-1.5 text-xs italic">{EQ_BANDS[index]} Hz</div>
+            <div className="mt-1.5 text-xs italic">
+              {EQ_BANDS[index]}
+              <span max-sm="hidden"> Hz</span>
+            </div>
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

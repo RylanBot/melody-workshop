@@ -6,22 +6,28 @@ interface MainContainerProps {
   children?: ReactNode;
 }
 
-const MainContainer: React.FC<MainContainerProps> = ({ leftSlot, rightSlot, children}) => {
+const MainContainer: React.FC<MainContainerProps> = ({ leftSlot, rightSlot, children }) => {
   return (
     <>
-      <div className="h-screen w-[80vw] m-auto flex-col flex-center text-green-900 dark:text-green-500">
-        <div className="w-full">
+      <main className="min-h-[80vh] w-[90vw] m-auto text-green-900 dark:text-green-500">
+        <div
+          className="w-full pt-16"
+          max-sm="pt-8"
+        >
           <div className="flex-between">
             {/* 切换栏 */}
             <div className="ml-1.5">{leftSlot}</div>
             {/* 导出 */}
             <div className="mr-1.5">{rightSlot}</div>
           </div>
-          <div className="h-125 bg-green-50 border-2 border-green-600 px-10 rounded-md dark:bg-dark-600">
+          <div
+            className="h-125 bg-green-50 border-2 border-green-600 px-10 rounded-md dark:bg-dark-600"
+            max-sm="px-4 h-140"
+          >
             {children}
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 };

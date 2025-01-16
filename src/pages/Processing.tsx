@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Radio } from "tdesign-react";
 
 import { AudioCutter, AudioEqualizer, AudioExportDialog, AudioPlayButton, AudioUploader } from "@/components/audio";
-import MainContainer from "@/components/layout/MainContainer";
+import { MainContainer } from "@/components/layout";
 
 import AudioConverter from "@/libs/audio/converter";
-import { AudioFormat, BitRate, sliceBufferByTime } from "@/libs/audio/effects";
+import { type AudioFormat, type BitRate, sliceBufferByTime } from "@/libs/audio/effects";
 import { secondsToTime } from "@/libs/common/time";
 
 import useWaveSurferContext from "@/hooks/useWaveSurferContext";
@@ -54,6 +54,7 @@ function Processing() {
           variant="default-filled"
           defaultValue={TAB_LIST[0].id}
           onChange={(id) => setActiveTab(id as string)}
+          className="h-9" // 与 rightSlot 高度统一
           style={{ border: "2px solid #16a34a", borderBottom: "transparent", borderRadius: "0px" }}
         >
           {TAB_LIST.map((tab) => (
@@ -63,7 +64,7 @@ function Processing() {
             >
               <div className="flex-center space-x-2 text-green-800 dark:text-green-300">
                 <div className={tab.icon}></div>
-                <div>{tab.name}</div>
+                <div max-sm="hidden">{tab.name}</div>
               </div>
             </Radio.Button>
           ))}
@@ -72,7 +73,7 @@ function Processing() {
       rightSlot={
         <AudioExportDialog
           disable={!processorRef.current}
-          onExport={(f, r) => handleAudioExport(f, r)}
+          onExport={(format, radio) => handleAudioExport(format, radio)}
         />
       }
     >
@@ -88,8 +89,13 @@ function Processing() {
       <div className={!processorRef.current ? "hidden" : undefined}>
         <div className="h-12 my-6 flex justify-between items-center">
           <label className="flex-center hover:text-green-600 dark:hover:text-green-400">
-            <strong>{audioName}</strong>
-            <div className="i-solar:refresh-square-outline text-2xl ml-3"></div>
+            <div className="i-solar:refresh-square-outline text-2xl mr-3"></div>
+            <strong
+              className="tracking-tighter w-96 truncate"
+              max-sm="w-70"
+            >
+              {audioName}
+            </strong>
             <input
               type="file"
               accept="audio/*"
@@ -103,7 +109,10 @@ function Processing() {
               }}
             />
           </label>
-          <div className="text-sm italic">
+          <div
+            className="text-sm italic"
+            max-sm="hidden"
+          >
             <div>
               <strong>Original: </strong>
               {secondsToTime(duration)}
@@ -120,7 +129,10 @@ function Processing() {
         ></div>
       </div>
 
-      <div className="flex-between h-46 my-10">
+      <div
+        className="flex-between h-46 my-10"
+        max-sm="flex-col"
+      >
         {/* 播放 */}
         <AudioPlayButton
           isPlaying={isPlaying}
@@ -133,6 +145,7 @@ function Processing() {
             key={tab.id}
             id={tab.id}
             hidden={activeTab !== tab.id}
+            max-sm="w-full"
           >
             {tab.component}
           </div>
