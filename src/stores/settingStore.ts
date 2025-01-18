@@ -14,14 +14,32 @@ interface SettingAction {
 
 type SettingStore = SettingState & SettingAction;
 
+const updateThemeAttr = (value: ThemeMode) => {
+  document.documentElement.setAttribute("theme-mode", value);
+  localStorage.setItem("theme-mode", value);
+};
+
+const initThemeMode = () => {
+  const localTheme = localStorage.getItem("theme-mode");
+
+  if (localTheme === "light" || localTheme === "dark") {
+    updateThemeAttr(localTheme);
+    return localTheme;
+  }
+
+  const preferTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  updateThemeAttr(preferTheme);
+  return preferTheme;
+};
+
 export const useSettingStore = create<SettingStore>((set) => ({
   loading: false,
   setLoading: (value) => {
     set({ loading: value });
   },
-  themeMode: "light",
+  themeMode: initThemeMode(),
   setThemeMode: (value) => {
     set({ themeMode: value });
-    document.documentElement.setAttribute("theme-mode", value);
+    updateThemeAttr(value);
   }
 }));

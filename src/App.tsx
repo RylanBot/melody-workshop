@@ -4,7 +4,6 @@ import { ConfigProvider } from "tdesign-react";
 import enConfig from "tdesign-react/es/locale/en_US";
 
 import { MultiTrackProvider } from "@/hooks/useMultiTrackContext";
-import useSettings from "@/hooks/useSettings";
 import { WaveSurferProvider } from "@/hooks/useWaveSurferContext";
 
 import { Footer, LoadingOverlay, TopNav } from "@/components/layout";
@@ -12,18 +11,16 @@ import { Dashboard, Mixing, Processing } from "@/pages";
 
 function Layout() {
   return (
-    <div>
+    <>
       <LoadingOverlay />
       <TopNav />
-      <Footer />
       <Outlet />
-    </div>
+      <Footer />
+    </>
   );
 }
 
 function App() {
-  useSettings();
-
   const globalConfig = merge(enConfig, {});
 
   const router = createBrowserRouter([
