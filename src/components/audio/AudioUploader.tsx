@@ -22,7 +22,10 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({
     const loadAudioFile = async (audioUrl: string) => {
       const response = await fetch(audioUrl);
       const blob = await response.blob();
-      return new File([blob], audioUrl, { type: "audio/mp3" });
+      const fileName = decodeURIComponent(
+        new URL(audioUrl, window.location.href).pathname.split("/").pop() || audioUrl
+      );
+      return new File([blob], fileName, { type: "audio/mp3" });
     };
 
     const audioUrls = Array.isArray(defaultAudio) ? defaultAudio : [defaultAudio];
@@ -32,7 +35,10 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({
 
   return (
     <>
-      <div className="h-12 my-6 flex justify-between items-center">
+      <div
+        className="h-12 my-6 flex justify-between items-center"
+        max-sm="my-3"
+      >
         <button
           className="flex-center text-sm italic space-x-3"
           hover="text-green-500 font-bold"

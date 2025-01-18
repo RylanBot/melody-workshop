@@ -80,7 +80,7 @@ function Processing() {
       {/* 上传 */}
       {!processorRef.current && (
         <AudioUploader
-          defaultAudio="Super Mario.mp3"
+          defaultAudio="/audio/Super Mario.mp3"
           onUpload={(file) => handleInitTrack(file as File)}
         />
       )}

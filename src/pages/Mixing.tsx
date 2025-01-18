@@ -57,7 +57,7 @@ const Mixing = () => {
       {tracks.length === 0 && (
         <AudioUploader
           multiple={true}
-          defaultAudio={["Do not go gentle into that good night.mp3", "Imminent.mp3"]}
+          defaultAudio={["/audio/Do not go gentle into that good night.mp3", "/audio/Imminent.mp3"]}
           onUpload={(files) => handleAddTracks(files as File[])}
           labelHeight="h-2/3"
         />

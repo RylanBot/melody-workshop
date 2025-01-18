@@ -30,7 +30,7 @@ const TopNav: React.FC = () => {
           max-sm="mr-4"
         >
           <img
-            src="favicon.png"
+            src="/image/favicon.png"
             className="w-8"
           />
           <h1
