@@ -1,6 +1,6 @@
 export const SAMPLE_RATE = 44100 as const;
 
-export const AUDIO_FORMAT = ["wav", "mp3", "m4a", "aac", "flac"] as const;
+export const AUDIO_FORMAT = ["wav", "flac", "mp3", "m4a", "ogg"] as const;
 export type AudioFormat = (typeof AUDIO_FORMAT)[number];
 
 export const BIT_RATE = ["320k", "256k", "192k", "128k", "96k", "64k"] as const;

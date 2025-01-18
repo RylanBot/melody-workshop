@@ -16,6 +16,9 @@ class AudioConverter {
   private format: AudioFormat = "wav";
   private rawData: ArrayBuffer | Uint8Array | null = null;
 
+  // private startTime: number = 0;
+  // private endTime: number = 0;
+
   constructor(audioBuffer: AudioBuffer) {
     this.ffmpeg = new FFmpeg();
     this.audioBuffer = audioBuffer;
@@ -30,10 +33,10 @@ class AudioConverter {
   private getFormatCodec(format: AudioFormat) {
     const codecMap = {
       wav: "", // 只是为了绕过 ts 检查
+      flac: "flac",
       mp3: "libmp3lame",
       m4a: "aac",
-      aac: "aac",
-      flac: "flac"
+      ogg: "libvorbis"
     };
     return codecMap[format];
   }
@@ -41,6 +44,8 @@ class AudioConverter {
   public async convert(options: AudioConverterOptions) {
     const { format, bitrate } = options;
     this.format = format;
+
+    // this.startTime = performance.now();
 
     const rawWav = audioBufferToWav(this.audioBuffer);
     if (format === "wav") {
@@ -80,6 +85,11 @@ class AudioConverter {
       // 清理临时文件
       await this.ffmpeg.deleteFile(inputName);
       await this.ffmpeg.deleteFile(outputName);
+
+      // 记录整体转换所需的时间
+      // this.endTime = performance.now();
+      // const duration = ((this.endTime - this.startTime) / 1000).toFixed(2);
+      // console.log(`Conversion completed in ${duration} seconds`);
 
       return this.rawData;
     } catch (error) {
