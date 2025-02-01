@@ -30,9 +30,8 @@ class AudioConverter {
     });
   }
 
-  private getFormatCodec(format: AudioFormat) {
+  private getFormatCodec(format: Exclude<AudioFormat, "wav">) {
     const codecMap = {
-      wav: "", // 只是为了绕过 ts 检查
       flac: "flac",
       mp3: "libmp3lame",
       m4a: "aac",
