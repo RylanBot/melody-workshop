@@ -44,7 +44,7 @@ const AudioEqualizer: React.FC = () => {
 
       <div
         className="flex h-32 space-x-6"
-        max-sm="space-x-2"
+        max-lg="space-x-2"
       >
         {filterGains.map((gain, index) => (
           <div
@@ -61,7 +61,7 @@ const AudioEqualizer: React.FC = () => {
             />
             <div className="mt-1.5 text-xs italic">
               {EQ_BANDS[index]}
-              <span max-sm="hidden"> Hz</span>
+              <span max-lg="hidden"> Hz</span>
             </div>
           </div>
         ))}

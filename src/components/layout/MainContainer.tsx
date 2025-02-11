@@ -12,7 +12,7 @@ const MainContainer: React.FC<MainContainerProps> = ({ leftSlot, rightSlot, chil
       <main className="min-h-[80vh] w-[90vw] m-auto text-green-900 dark:text-green-500">
         <div
           className="w-full pt-16"
-          max-sm="pt-8"
+          max-lg="pt-8"
         >
           <div className="flex-between">
             {/* 切换栏 */}
@@ -22,7 +22,7 @@ const MainContainer: React.FC<MainContainerProps> = ({ leftSlot, rightSlot, chil
           </div>
           <div
             className="h-125 bg-green-50 border-2 border-green-600 px-10 rounded-md dark:bg-dark-600"
-            max-sm="px-4 h-140"
+            max-lg="px-4 h-140"
           >
             {children}
           </div>

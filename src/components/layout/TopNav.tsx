@@ -21,21 +21,21 @@ const TopNav: React.FC = () => {
   return (
     <nav
       className="h-[5vh] w-screen flex-between py-10 px-12"
-      max-sm="px-4"
+      max-lg="px-4"
     >
       <div className="flex-center">
         <div
           onClick={() => !isHome && navigate("/")}
           className={`flex-center mr-6 ${!isHome ? "cursor-pointer" : ""}`}
-          max-sm="mr-4"
+          max-lg="mr-4"
         >
           <img
             src="/image/favicon.png"
             className="w-8"
           />
           <h1
-            className="text-2xl max-sm:text-xl font-sans font-bold text-green-700 dark:text-green-500 ml-4"
-            max-sm={!isHome ? "hidden" : undefined}
+            className="text-2xl max-lg:text-xl font-sans font-bold text-green-700 dark:text-green-500 ml-4"
+            max-lg={!isHome ? "hidden" : undefined}
           >
             Melody Workshop
           </h1>

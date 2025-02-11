@@ -64,7 +64,7 @@ function Processing() {
             >
               <div className="flex-center space-x-2 text-green-800 dark:text-green-300">
                 <div className={tab.icon}></div>
-                <div max-sm="hidden">{tab.name}</div>
+                <div max-lg="hidden">{tab.name}</div>
               </div>
             </Radio.Button>
           ))}
@@ -92,7 +92,7 @@ function Processing() {
             <div className="i-solar:refresh-square-outline text-2xl mr-3"></div>
             <strong
               className="tracking-tighter w-96 truncate"
-              max-sm="w-70"
+              max-lg="w-70"
             >
               {audioName}
             </strong>
@@ -111,7 +111,7 @@ function Processing() {
           </label>
           <div
             className="text-sm italic"
-            max-sm="hidden"
+            max-lg="hidden"
           >
             <div>
               <strong>Original: </strong>
@@ -131,7 +131,7 @@ function Processing() {
 
       <div
         className="flex-between h-46 my-10"
-        max-sm="flex-col"
+        max-lg="flex-col"
       >
         {/* 播放 */}
         <AudioPlayButton
@@ -145,7 +145,7 @@ function Processing() {
             key={tab.id}
             id={tab.id}
             hidden={activeTab !== tab.id}
-            max-sm="w-full"
+            max-lg="w-full"
           >
             {tab.component}
           </div>

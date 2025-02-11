@@ -39,12 +39,12 @@ const AudioCutter: React.FC = () => {
   return (
     <div
       className="space-y-10"
-      max-sm="space-y-5 w-full flex-col text-sm"
+      max-lg="space-y-5 w-full flex-col text-sm"
     >
       {/* 时间 */}
       <div
         className="flex-center space-x-8"
-        max-sm="space-x-4"
+        max-lg="space-x-4"
       >
         <div className="w-1/2 flex-start">
           <strong className="mr-2">Start</strong>

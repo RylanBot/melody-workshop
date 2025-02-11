@@ -62,7 +62,7 @@ const Mixing = () => {
           labelHeight="h-2/3"
         />
       )}
-      <div className={`${tracks.length > 0 ? "h-[72%] mt-8 max-sm:h-[65%]" : undefined}`}>
+      <div className={`${tracks.length > 0 ? "h-[72%] mt-8 max-lg:h-[65%]" : undefined}`}>
         <div
           id="multitrack"
           ref={containerRef}
@@ -76,7 +76,7 @@ const Mixing = () => {
           </div>
           <div
             className="flex-between"
-            max-sm="flex-col space-y-4 mt-5"
+            max-lg="flex-col space-y-4 mt-5"
           >
             <div className="flex items-center space-x-5">
               <AudioPlayButton
@@ -102,7 +102,7 @@ const Mixing = () => {
                     <div className="i-material-symbols:add-circle text-lg"></div>
                     <div
                       className="font-bold ml-2"
-                      max-sm="hidden"
+                      max-lg="hidden"
                     >
                       Add Tracks
                     </div>
@@ -120,7 +120,7 @@ const Mixing = () => {
               >
                 <span
                   className="font-bold ml-2"
-                  max-sm="hidden"
+                  max-lg="hidden"
                 >
                   Delete
                 </span>

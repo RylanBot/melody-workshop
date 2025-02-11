@@ -13,13 +13,18 @@ const IntroCard: React.FC<IntroCardProps> = ({ path, icon, title, description })
     <>
       <div
         onClick={() => navigate(path)}
-        className="cursor-pointer w-115 h-45 space-x-10 bg-gray-100 dark:bg-dark-600 py-4 rounded-lg flex-center font-bold border-3 border-green-600 hover:scale-105 transition-transform duration-300 ease-in-out"
-        max-sm="w-84 px-4 space-x-5"
+        className="cursor-pointer flex-between w-110 h-45 bg-gray-100 dark:bg-dark-600 px-10 py-4 space-x-20 rounded-lg font-bold border-3 border-green-600 hover:scale-105 transition-transform duration-300 ease-in-out"
+        max-lg="w-85 px-4 space-x-10"
       >
-        <div className={`text-7xl text-stone-800 dark:text-stone-300 ${icon}`}></div>
-        <div className="w-56 text-left ml-4 text-right">
-          <h2 className="text-2xl mb-2 text-green-900 dark:text-green-500">{title}</h2>
-          <p className="text-xl leading-tight text-stone-700 dark:text-stone-200">{description}</p>
+        <div className="flex-center">
+          <div
+            className={`${icon} text-6xl text-stone-800 dark:text-stone-300`}
+            max-lg="text-5xl"
+          ></div>
+        </div>
+        <div className="relative text-right">
+          <h2 className="absolute right-0 text-2xl text-green-900 dark:text-green-500 whitespace-nowrap">{title}</h2>
+          <p className="text-xl leading-tight text-stone-700 dark:text-stone-200 mt-10">{description}</p>
         </div>
       </div>
     </>

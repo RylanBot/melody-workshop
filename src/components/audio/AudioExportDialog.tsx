@@ -62,7 +62,7 @@ const AudioExportDialog: React.FC<AudioExportDialogProps> = ({ disable, onExport
               ) : (
                 <div
                   className="flex space-x-6"
-                  max-sm="space-x-4 mt-6"
+                  max-lg="space-x-4 mt-6"
                 >
                   {BIT_RATE.map((rate) => (
                     <Radio
@@ -71,9 +71,9 @@ const AudioExportDialog: React.FC<AudioExportDialogProps> = ({ disable, onExport
                       checked={activeRate === rate}
                       disabled={rateDisabled}
                       onChange={() => setActiveRate(rate)}
-                      className="flex-center max-sm:flex-col"
+                      className="flex-center max-lg:flex-col"
                     >
-                      <div max-sm="my-1">{rate}</div>
+                      <div max-lg="my-1">{rate}</div>
                     </Radio>
                   ))}
                 </div>

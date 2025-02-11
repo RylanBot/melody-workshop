@@ -8,10 +8,7 @@ interface AudioPlayButtonProps {
 
 const AudioPlayButton: React.FC<AudioPlayButtonProps> = ({ isPlaying, togglePlay, replay }) => {
   return (
-    <div
-      className="space-x-5"
-      max-sm="flex-center"
-    >
+    <div className="flex-center space-x-5">
       <Button onClick={togglePlay}>
         <div className={`${isPlaying ? "i-solar:pause-bold" : "i-solar:play-bold"}`}></div>
       </Button>

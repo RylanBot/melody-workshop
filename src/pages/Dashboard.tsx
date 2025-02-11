@@ -20,7 +20,7 @@ function Dashboard() {
     <main className="h-[80vh] flex-center flex-col p-6">
       <div
         className="flex gap-16"
-        max-sm="flex-col"
+        max-lg="flex-col"
       >
         {intros.map((intro, key) => (
           <IntroCard

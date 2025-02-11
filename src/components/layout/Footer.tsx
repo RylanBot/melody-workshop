@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
         target="_blank"
         className="flex-center space-x-4 tracking-tight text-sm font-bold"
         hover="underline underline-offset-5"
-        max-sm="text-xs"
+        max-lg="text-xs"
       >
         <div className="i-tdesign:logo-github-filled"></div>
         <p>Open-source Project</p>
