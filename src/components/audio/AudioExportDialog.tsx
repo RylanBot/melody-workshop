@@ -32,7 +32,7 @@ const AudioExportDialog: React.FC<AudioExportDialogProps> = ({ disable, onExport
       </button>
       <Dialog
         placement="center"
-        width="525px"
+        width="600px"
         confirmBtn={null}
         cancelBtn={null}
         visible={dialogVisible}
