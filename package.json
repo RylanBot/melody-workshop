@@ -11,6 +11,7 @@
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.10",
     "@ffmpeg/util": "^0.12.1",
+    "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-number-format": "^5.4.2",
@@ -28,7 +29,10 @@
     "@types/react-dom": "^18.3.0",
     "@types/react-input-mask": "^3.0.6",
     "@types/web": "^0.0.169",
+    "@unocss/preset-attributify": "^0.63.4",
     "@unocss/preset-icons": "^0.63.4",
+    "@unocss/preset-uno": "^0.63.4",
+    "@unocss/reset": "^0.63.4",
     "@unocss/transformer-directives": "^0.63.4",
     "@unocss/transformer-variant-group": "^0.63.4",
     "@vitejs/plugin-react": "^4.3.2",
