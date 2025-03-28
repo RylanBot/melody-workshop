@@ -26,12 +26,12 @@
 
 ## 🧙🏻 二次开发
 
-<img src="https://img.shields.io/badge/node-20.x-green" alt="node version"/> <img src="https://img.shields.io/badge/yarn-1.x-blue" alt="yarn version"/>
+<img src="https://img.shields.io/badge/node-20.x-green" alt="node version"/> <img src="https://img.shields.io/badge/pnpm-10.x-yellow" alt="yarn version"/>
 
 如果你熟悉 Web 前端技术且对源码感兴趣，可以根据以下命令，在本地启动这个程序：
 
 ```sh
-npm install # yarn
+npm install # pnpm install
 npm run dev
 ```
 

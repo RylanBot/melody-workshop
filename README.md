@@ -26,12 +26,12 @@ English | [简体中文](./README-CN.md)
 
 ## 🧙🏻 Development
 
-<img src="https://img.shields.io/badge/node-20.x-green" alt="node version"/> <img src="https://img.shields.io/badge/yarn-1.x-blue" alt="yarn version"/>
+<img src="https://img.shields.io/badge/node-20.x-green" alt="node version"/> <img src="https://img.shields.io/badge/pnpm-10.x-yellow" alt="yarn version"/>
 
 If you are familiar with the Web frontend technologies and are interested in source code, you can run this program using the following commands:
 
 ```sh
-npm install # yarn
+npm install # pnpm install
 npm run dev
 ```
 
