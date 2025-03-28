@@ -1,10 +1,11 @@
-import { defineConfig } from "unocss";
-
-import presetAttributify from "@unocss/preset-attributify";
-import presetIcons from "@unocss/preset-icons";
-import presetUno from "@unocss/preset-uno";
-import transformerDirectives from "@unocss/transformer-directives";
-import transformerVariantGroup from "@unocss/transformer-variant-group";
+import {
+  defineConfig,
+  presetAttributify,
+  presetIcons,
+  presetUno,
+  transformerDirectives,
+  transformerVariantGroup
+} from "unocss";
 
 export default defineConfig({
   presets: [
@@ -29,11 +30,5 @@ export default defineConfig({
     ["flex-center", "flex justify-center items-center"],
     ["flex-between", "flex justify-between items-center"],
     ["flex-end", "flex justify-end items-center"]
-  ],
-  theme: {
-    colors: {
-      'td-brand': '#5BC25E',
-      'td-brand-dark': '#36a541'
-    },
-  },
+  ]
 });
