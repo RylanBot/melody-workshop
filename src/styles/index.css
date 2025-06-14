@@ -36,11 +36,17 @@ button:disabled {
 
 /* PatternFormat */
 input[inputmode="numeric"] {
+  outline: none;
+  font-size: 12px;
   height: var(--td-comp-size-m);
   color: var(--td-text-color-primary);
   background-color: var(--td-bg-color-specialcomponent);
   border: 1px solid var(--td-border-level-2-color);
   border-radius: var(--td-radius-default);
+}
+
+input[inputmode="numeric"]:focus {
+  border-color: var(--td-brand-color);
 }
 
 /* Select */
