@@ -43,13 +43,13 @@ const AudioEqualizer: React.FC = () => {
       </div>
 
       <div
-        className="flex h-32 space-x-6"
+        className="flex-center h-32 space-x-6"
         max-lg="space-x-2"
       >
         {filterGains.map((gain, index) => (
           <div
             key={index}
-            className="w-14 flex-center flex-col"
+            className="w-15 h-full flex-center flex-col"
           >
             <Slider
               layout="vertical"
