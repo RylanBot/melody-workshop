@@ -25,13 +25,13 @@ const TopNav: React.FC = () => {
     >
       <div className="flex-center">
         <div
-          onClick={() => !isHome && navigate("/")}
           className={`flex-center mr-6 ${!isHome ? "cursor-pointer" : ""}`}
           max-lg="mr-4"
+          onClick={() => !isHome && navigate("/")}
         >
           <img
-            src="/image/favicon.png"
             className="w-8"
+            src="/image/favicon.png"
           />
           <h1
             className="text-2xl max-lg:text-xl font-sans font-bold text-green-700 dark:text-green-500 ml-4"
@@ -52,19 +52,19 @@ const TopNav: React.FC = () => {
 
       {/* 主题切换 */}
       <Tabs
-        theme="card"
         className="rounded-sm h-8 w-16 flex-center border border-green-600"
+        theme="card"
         value={themeMode}
         onChange={(v) => setThemeMode(v as "light" | "dark")}
       >
         <TabPanel
-          value="light"
           className="w-4 flex-center"
+          value="light"
           label={<div className="i-material-symbols:sunny text-lg"></div>}
         ></TabPanel>
         <TabPanel
-          value="dark"
           className="w-4 flex-center"
+          value="dark"
           label={<div className="i-material-symbols:nightlight text-lg"></div>}
         ></TabPanel>
       </Tabs>

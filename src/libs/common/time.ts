@@ -1,5 +1,5 @@
 /**
- * 确保 分:秒:毫秒（01:23:456) 都是两位数
+ * 确保 分:秒:毫秒（01:23:45) 都是两位数
  * 如果位数不够，在前面补充 0
  */
 export const formatTime = (minutes: number, seconds: number, milliseconds: number) => {

@@ -1,20 +1,19 @@
 interface AudioUploaderProps {
   multiple?: boolean;
   defaultAudio: string | string[];
-  onUpload: (audio: File | File[]) => void;
   labelHeight?: string; // 对应 UnoCSS 的 h-xx 写法
+  onUpload: (audio: File | File[]) => void;
 }
 
 const AudioUploader: React.FC<AudioUploaderProps> = ({
   multiple = false,
   defaultAudio,
-  onUpload,
-  labelHeight = "h-32"
+  labelHeight = "h-32",
+  onUpload
 }) => {
   const handleAudioUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
-
     onUpload(multiple ? Array.from(files) : files[0]);
   };
 

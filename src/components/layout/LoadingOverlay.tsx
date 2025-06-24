@@ -15,7 +15,7 @@ const LoadingOverlay: React.FC = () => {
               key={i}
               className="w-2 h-12 rounded-md bg-green-400"
               style={{
-                animation: `bounce 1.2s ${i * 0.2}s infinite ease-in-out`,
+                animation: `bounce 1.2s ${i * 0.2}s infinite ease-in-out`
               }}
             ></div>
           ))}

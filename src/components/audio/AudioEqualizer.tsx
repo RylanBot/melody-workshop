@@ -32,12 +32,11 @@ const AudioEqualizer: React.FC = () => {
         <div className="flex-center space-x-1">
           <strong m="r-3">Preset</strong>
           <Select
-            // autoWidth={true}
-            disabled={!processorRef.current}
-            options={Object.keys(EQ_PRESETS).map((item) => ({ label: item, value: item }))}
-            value={activePreset}
-            onChange={(preset) => handlePresetChange(preset as string)}
             style={{ width: "125px" }}
+            value={activePreset}
+            options={Object.keys(EQ_PRESETS).map((item) => ({ label: item, value: item }))}
+            disabled={!processorRef.current}
+            onChange={(preset) => handlePresetChange(preset as string)}
           />
         </div>
       </div>

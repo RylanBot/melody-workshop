@@ -12,9 +12,9 @@ const IntroCard: React.FC<IntroCardProps> = ({ path, icon, title, description })
   return (
     <>
       <div
-        onClick={() => navigate(path)}
         className="cursor-pointer flex-between w-110 h-45 bg-gray-100 dark:bg-dark-600 px-10 py-4 space-x-20 rounded-lg font-bold border-3 border-green-600 hover:scale-105 transition-transform duration-300 ease-in-out"
         max-lg="w-85 px-4 space-x-10"
+        onClick={() => navigate(path)}
       >
         <div className="flex-center">
           <div

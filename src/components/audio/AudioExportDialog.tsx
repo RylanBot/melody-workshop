@@ -19,8 +19,8 @@ const AudioExportDialog: React.FC<AudioExportDialogProps> = ({ disable, onExport
   return (
     <>
       <button
-        disabled={disable}
         className="h-9 w-30 text-white bg-green-700 dark:bg-green-800 border-2 border-green-600 border-b-none"
+        disabled={disable}
       >
         <div
           className="relative flex-center font-bold"
@@ -45,8 +45,8 @@ const AudioExportDialog: React.FC<AudioExportDialogProps> = ({ disable, onExport
               <Radio.Group
                 variant="default-filled"
                 value={activeFormat}
-                onChange={(value) => setActiveFormat(value as AudioFormat)}
                 options={AUDIO_FORMAT.map((format) => ({ value: format, label: format }))}
+                onChange={(value) => setActiveFormat(value as AudioFormat)}
               />
             </div>
           </div>

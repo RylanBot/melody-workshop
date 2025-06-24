@@ -42,6 +42,7 @@ const AudioTimeInput: React.FC<AudioTimeInputProps> = ({ max, time, onChange }) 
     <>
       <div className="flex">
         <PatternFormat
+          className="w-20 text-center text-sm"
           value={time}
           format="##:##:###"
           mask=""
@@ -49,7 +50,6 @@ const AudioTimeInput: React.FC<AudioTimeInputProps> = ({ max, time, onChange }) 
           onKeyDown={(e) => {
             if (e.key === "Backspace") e.preventDefault(); // 避免文本删除 -> 需要引入复杂校验逻辑
           }}
-          className="w-20 text-center text-sm"
         />
         <div className="flex flex-col mx-0.5 px-1">
           <button

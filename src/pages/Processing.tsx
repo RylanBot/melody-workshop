@@ -51,11 +51,11 @@ function Processing() {
     <MainContainer
       leftSlot={
         <Radio.Group
+          className="h-9" // 与 rightSlot 高度统一
+          style={{ border: "2px solid #16a34a", borderBottom: "transparent", borderRadius: "0px" }}
           variant="default-filled"
           defaultValue={TAB_LIST[0].id}
           onChange={(id) => setActiveTab(id as string)}
-          className="h-9" // 与 rightSlot 高度统一
-          style={{ border: "2px solid #16a34a", borderBottom: "transparent", borderRadius: "0px" }}
         >
           {TAB_LIST.map((tab) => (
             <Radio.Button
