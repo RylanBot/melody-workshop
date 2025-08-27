@@ -30,8 +30,8 @@ importers:
         specifier: ^7.0.1
         version: 7.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tdesign-react:
-        specifier: ^1.12.1
-        version: 1.12.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.14.5
+        version: 1.14.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       wavesurfer-multitrack:
         specifier: ^0.4.12
         version: 0.4.12
@@ -814,9 +814,6 @@ packages:
   '@types/sortablejs@1.15.8':
     resolution: {integrity: sha512-b79830lW+RZfwaztgs1aVPgbasJ8e7AXtZYHTELNXZPsERt4ymJdjV4OccDbHQAvHrCcFpbF78jkm0R6h/pZVg==}
 
-  '@types/tinycolor2@1.4.6':
-    resolution: {integrity: sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==}
-
   '@types/validator@13.12.2':
     resolution: {integrity: sha512-6SlHBzUW8Jhf3liqrGGXyTJSIFe4nqlJ5A5KaMZ2l/vbM3Wh3KSybots/wfWVzNLK4D1NZluDlSQIbIEPx6oyA==}
 
@@ -1348,20 +1345,17 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  tdesign-icons-react@0.5.0:
-    resolution: {integrity: sha512-Gpl1Kxkb8+YXYjMsSW5W3kWy/drVB/huFLIHWhmJdUnEwUAW0Il+nDyb/BsRi51jLnalBwjYbOELEggH2qp6FQ==}
+  tdesign-icons-react@0.5.1:
+    resolution: {integrity: sha512-y+KDjIn1z+llAzk4vGJR9rFKjMwpKPwTPD799Na9TI/knmD3XG+stInHAhTpXT386lwQwm4OGpYS98eE3DKOVQ==}
     peerDependencies:
       react: '>=16.13.1'
       react-dom: '>=16.13.1'
 
-  tdesign-react@1.12.1:
-    resolution: {integrity: sha512-mHS/RWQgYcVLnIdhzueLFzdvHk8O9Gw1weUXRYbOKx02QZE0v5AJ/ZFjqSRMO+XAtvVzuZ/4zUd1bikzjSC3pg==}
+  tdesign-react@1.14.5:
+    resolution: {integrity: sha512-t1TWQ6By/JZ+awGzyW3FqcH8n+vgAU8KzcGWnjtMCHPhHiqJgcwcdVPkP0Gf0txUxYbZkhHPVvWwb/NryL3JEA==}
     peerDependencies:
       react: '>=16.13.1'
       react-dom: '>=16.13.1'
-
-  tinycolor2@1.6.0:
-    resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}
 
   tinyexec@0.3.2:
     resolution: {integrity: sha512-KQQR9yN7R5+OSwaK0XQoj22pwHoTlgYqmUscPYoknOoWCWfj/5/ABTMRi69FrKU5ffPVh5QcFikpWJI/P1ocHA==}
@@ -1997,8 +1991,6 @@ snapshots:
       csstype: 3.1.3
 
   '@types/sortablejs@1.15.8': {}
-
-  '@types/tinycolor2@1.4.6': {}
 
   '@types/validator@13.12.2': {}
 
@@ -2663,19 +2655,18 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  tdesign-icons-react@0.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  tdesign-icons-react@0.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.10
       classnames: 2.5.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  tdesign-react@1.12.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  tdesign-react@1.14.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.10
       '@popperjs/core': 2.11.8
       '@types/sortablejs': 1.15.8
-      '@types/tinycolor2': 1.4.6
       '@types/validator': 13.12.2
       classnames: 2.5.1
       dayjs: 1.11.10
@@ -2689,12 +2680,9 @@ snapshots:
       react-is: 18.3.1
       react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       sortablejs: 1.15.6
-      tdesign-icons-react: 0.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      tinycolor2: 1.6.0
+      tdesign-icons-react: 0.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tslib: 2.3.1
       validator: 13.15.0
-
-  tinycolor2@1.6.0: {}
 
   tinyexec@0.3.2: {}
 
