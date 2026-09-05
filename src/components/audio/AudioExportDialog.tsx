@@ -86,7 +86,7 @@ const AudioExportDialog: React.FC<AudioExportDialogProps> = ({ disable, onExport
           >
             <div className="flex-center">
               <div className="i-ri:download-2-line mr-3"></div>
-              <div className="italic">Start</div>
+              <div>Start</div>
             </div>
           </Button>
         </div>

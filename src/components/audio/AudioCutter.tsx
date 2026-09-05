@@ -47,15 +47,15 @@ const AudioCutter: React.FC = () => {
         max-lg="space-x-4"
       >
         <div className="w-1/2 flex-start">
-          <strong className="mr-2">Start</strong>
+          <strong className="mr-3 max-lg:mr-6">Start</strong>
           <AudioTimeInput
             max={secondsToTime(duration)}
             time={secondsToTime(startTime)}
             onChange={(time) => validateStartTime(time)}
           />
         </div>
-        <div className="w-1/2 flex-start">
-          <strong className="mr-2">End</strong>
+        <div className="w-1/2 flex items-center justify-start max-lg:justify-end">
+          <strong className="mr-3 max-lg:mr-6">End</strong>
           <AudioTimeInput
             max={secondsToTime(duration)}
             time={secondsToTime(endTime)}
@@ -65,7 +65,7 @@ const AudioCutter: React.FC = () => {
       </div>
       {/* 音量 */}
       <div className="flex pr-4">
-        <strong className="mr-4">Volume</strong>
+        <strong className="w-20 shrink-0">Volume</strong>
         <Slider
           min={0}
           max={1}
@@ -77,7 +77,7 @@ const AudioCutter: React.FC = () => {
       </div>
       {/* 音速 */}
       <div className="flex pr-4">
-        <strong className="mr-6">Speed</strong>
+        <strong className="w-20 shrink-0">Speed</strong>
         <Slider
           min={0.5}
           max={4}

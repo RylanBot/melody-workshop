@@ -62,7 +62,7 @@ const Mixing = () => {
           labelHeight="h-2/3"
         />
       )}
-      <div className={`${tracks.length > 0 ? "h-[72%] mt-8 max-lg:h-[65%]" : undefined}`}>
+      <div className={`${tracks.length > 0 ? "flex-1 min-h-0 mt-8" : undefined}`}>
         <div
           id="multitrack"
           ref={containerRef}
@@ -75,10 +75,13 @@ const Mixing = () => {
             <div className="truncate w-125 text-right">{tracks[activeId]?.name}</div>
           </div>
           <div
-            className="flex-between"
-            max-lg="flex-col space-y-4 mt-5"
+            className="flex-between mt-auto mb-10"
+            max-lg="flex-col gap-4"
           >
-            <div className="flex items-center space-x-5">
+            <div
+              className="flex items-center space-x-5"
+              max-lg="w-full justify-between"
+            >
               <AudioPlayButton
                 isPlaying={isPlaying}
                 togglePlay={togglePlay}
@@ -110,7 +113,10 @@ const Mixing = () => {
                 </Button>
               </label>
             </div>
-            <div className="flex-center space-x-3">
+            <div
+              className="flex items-center space-x-3"
+              max-lg="w-full justify-between"
+            >
               {/* 删除音轨 */}
               <Button
                 theme="primary"

@@ -40,7 +40,7 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({
       >
         <button
           className="flex-center text-sm italic space-x-3"
-          hover="text-green-500 font-bold"
+          hover="text-green-500 font-semibold"
           max-lg="text-xs"
           onClick={loadDefaultAudio}
         >

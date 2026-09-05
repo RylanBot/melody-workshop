@@ -86,7 +86,7 @@ function Processing() {
       )}
 
       {/* 音轨 - note: 利用 CSS 隐藏，不能直接销毁 DOM ref，否则波谱初始化失败 */}
-      <div className={!processorRef.current ? "hidden" : undefined}>
+      <div className={!processorRef.current ? "hidden" : "flex-1 min-h-0"}>
         <div className="h-12 my-6 flex justify-between items-center">
           <label className="flex-center hover:text-green-600 dark:hover:text-green-400">
             <div className="i-solar:refresh-square-outline text-2xl mr-3"></div>
@@ -130,7 +130,7 @@ function Processing() {
       </div>
 
       <div
-        className="flex-between h-46 my-10"
+        className="flex-between h-56 mt-auto mb-10"
         max-lg="flex-col"
       >
         {/* 播放 */}

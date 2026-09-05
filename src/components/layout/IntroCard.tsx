@@ -12,7 +12,7 @@ const IntroCard: React.FC<IntroCardProps> = ({ path, icon, title, description })
   return (
     <>
       <div
-        className="cursor-pointer flex-between w-110 h-45 bg-gray-100 dark:bg-dark-600 px-10 py-4 space-x-20 rounded-lg font-bold border-3 border-green-600 hover:scale-105 transition-transform duration-300 ease-in-out"
+        className="cursor-pointer flex-between w-110 h-45 bg-white dark:bg-dark-600 px-10 py-4 space-x-20 rounded-lg font-bold border-3 border-green-600 hover:scale-105 transition-transform duration-300 ease-in-out"
         max-lg="w-85 px-4 space-x-10"
         onClick={() => navigate(path)}
       >
@@ -24,7 +24,12 @@ const IntroCard: React.FC<IntroCardProps> = ({ path, icon, title, description })
         </div>
         <div className="relative text-right">
           <h2 className="absolute right-0 text-2xl text-green-900 dark:text-green-500 whitespace-nowrap">{title}</h2>
-          <p className="text-xl leading-tight text-stone-700 dark:text-stone-200 mt-10">{description}</p>
+          <p
+            className="text-xl leading-tight text-stone-700 dark:text-stone-200 mt-10"
+            max-lg="text-base"
+          >
+            {description}
+          </p>
         </div>
       </div>
     </>

@@ -28,7 +28,10 @@ const AudioEqualizer: React.FC = () => {
 
   return (
     <>
-      <div className="flex-end my-8 w-full">
+      <div
+        className="flex-end my-8 w-full"
+        max-lg="flex-center my-0"
+      >
         <div className="flex-center space-x-1">
           <strong m="r-3">Preset</strong>
           <Select
@@ -42,8 +45,8 @@ const AudioEqualizer: React.FC = () => {
       </div>
 
       <div
-        className="flex-center h-32 space-x-6"
-        max-lg="space-x-2"
+        className="flex-center h-32 space-x-6 w-full"
+        max-lg="space-x-2 mt-4"
       >
         {filterGains.map((gain, index) => (
           <div
