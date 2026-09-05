@@ -30,8 +30,8 @@ importers:
         specifier: ^7.0.1
         version: 7.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tdesign-react:
-        specifier: ^1.14.5
-        version: 1.14.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.18.3
+        version: 1.18.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       wavesurfer-multitrack:
         specifier: ^0.4.12
         version: 0.4.12
@@ -1338,21 +1338,21 @@ packages:
     resolution: {integrity: sha512-94Bdh3cC2PKrbgSOUqTiGPWVZeSiXfKOVZNJniWoqrWrRkB1CJzBU3NEbiTsPcYy1lDsANA/THzS+9WBiy5nfQ==}
     engines: {node: '>= 10'}
 
-  sortablejs@1.15.6:
-    resolution: {integrity: sha512-aNfiuwMEpfBM/CN6LY0ibyhxPfPbyFeBTYJKCvzkJ2GkUpazIt3H+QIPAMHwqQ7tMKaHz1Qj+rJJCqljnf4p3A==}
+  sortablejs@1.15.7:
+    resolution: {integrity: sha512-Kk8wLQPlS+yi1ZEf48a4+fzHa4yxjC30M/Sr2AnQu+f/MPwvvX9XjZ6OWejiz8crBsLwSq8GHqaxaET7u6ux0A==}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  tdesign-icons-react@0.5.1:
-    resolution: {integrity: sha512-y+KDjIn1z+llAzk4vGJR9rFKjMwpKPwTPD799Na9TI/knmD3XG+stInHAhTpXT386lwQwm4OGpYS98eE3DKOVQ==}
+  tdesign-icons-react@0.6.11:
+    resolution: {integrity: sha512-zH9Wr7QvX5y3WRF9hvm25ci04SLaPHB9SPN2FfWMHQf9f5ITmli+3abJkGwcePTeTYE4vmNBnAy6dxRSMCui1g==}
     peerDependencies:
       react: '>=16.13.1'
       react-dom: '>=16.13.1'
 
-  tdesign-react@1.14.5:
-    resolution: {integrity: sha512-t1TWQ6By/JZ+awGzyW3FqcH8n+vgAU8KzcGWnjtMCHPhHiqJgcwcdVPkP0Gf0txUxYbZkhHPVvWwb/NryL3JEA==}
+  tdesign-react@1.18.3:
+    resolution: {integrity: sha512-20Jxx5qKhgcYo9GJQQWrZlw18mFnKNiGQC4IwUfhXwn853nnNfyhTKFPVksK673DdZU+U7D64iEK5DUR9KTz0A==}
     peerDependencies:
       react: '>=16.13.1'
       react-dom: '>=16.13.1'
@@ -2651,18 +2651,18 @@ snapshots:
       mrmime: 2.0.1
       totalist: 3.0.1
 
-  sortablejs@1.15.6: {}
+  sortablejs@1.15.7: {}
 
   source-map-js@1.2.1: {}
 
-  tdesign-icons-react@0.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  tdesign-icons-react@0.6.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.10
       classnames: 2.5.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  tdesign-react@1.14.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  tdesign-react@1.18.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.10
       '@popperjs/core': 2.11.8
@@ -2679,8 +2679,8 @@ snapshots:
       react-fast-compare: 3.2.2
       react-is: 18.3.1
       react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      sortablejs: 1.15.6
-      tdesign-icons-react: 0.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      sortablejs: 1.15.7
+      tdesign-icons-react: 0.6.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tslib: 2.3.1
       validator: 13.15.0
 
